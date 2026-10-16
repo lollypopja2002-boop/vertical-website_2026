@@ -1,1 +1,40 @@
+/* 모든 페이지의 공통 작업 영역: 1920 × 1080 (16:9) */
+:root {
+  --page-width: 1920px;
+  --page-padding: 30px;
+}
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.page {
+  position: relative;
+  width: min(100%, calc(100svh * 16 / 9), var(--page-width));
+  aspect-ratio: 16 / 9;
+  padding: var(--page-padding);
+  overflow: hidden;
+}
+
+/* 모든 콘텐츠와 장식은 이 영역 안에 배치합니다. */
+.page__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}

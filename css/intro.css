@@ -1,0 +1,47 @@
+/* Intro 페이지 전용 스타일 */
+.intro__graphic {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 432px;
+  height: 488px;
+  max-width: calc(100vw - var(--page-padding) * 2);
+  max-height: calc(100dvh - var(--page-padding) * 2);
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.intro__graphic:hover {
+  content: url("../img/intro_1_hover.svg");
+}
+
+.intro__bolt {
+  position: fixed;
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.intro__bolt--top-left {
+  top: var(--page-padding);
+  left: var(--page-padding);
+}
+
+.intro__bolt--top-right {
+  top: var(--page-padding);
+  right: var(--page-padding);
+}
+
+.intro__bolt--bottom-left {
+  bottom: var(--page-padding);
+  left: var(--page-padding);
+}
+
+.intro__bolt--bottom-right {
+  bottom: var(--page-padding);
+  right: var(--page-padding);
+}
