@@ -1,0 +1,88 @@
+/* 첨부 로그인 화면의 배치를 흰색 배경에 맞춰 재구성합니다. */
+.page--naver-login { width:100%; max-width:none; min-height:100svh; padding:2rem 1rem; background:#fff; aspect-ratio:auto; }
+.page--naver-login .login-layout { width:min(100%,33rem); height:auto; min-height:0; margin:auto; display:flex; flex-direction:column; align-items:center; gap:1.25rem; }
+.login-logo { display:block; width:3.5rem; height:13rem; margin-bottom:.25rem; }
+.login-logo img { display:block; width:100%; height:100%; object-fit:contain; }
+.login-card { width:min(100%,28.5rem); padding:1.75rem 3.75rem 1.5rem; border:.0625rem solid #dadfdb; border-radius:1.5rem; }
+.login-fields { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
+.login-field { display:flex; flex-direction:column; align-items:center; gap:1rem; min-width:0; position:relative; }
+.login-field>svg { width:1.75rem; height:1.75rem; fill:none; stroke:currentColor; stroke-width:1.6; }
+.login-field>input { display:block; box-sizing:border-box; width:3.5rem; height:14.5rem; padding:0 .75rem; border:0; border-left:.0625rem solid #c4ccc7; outline:none; background:white; border-radius:0; }
+.login-field:focus-within>input { border-left-color:#03c75a; }
+.password-visibility { position:absolute; bottom:0; left:calc(50% + 1.875rem); padding:.25rem; border:0; background:none; cursor:pointer; }
+.login-options { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin:1.5rem 0 1.25rem; }
+.login-remember,.login-ip { display:flex; align-items:center; gap:.75rem; position:relative; cursor:pointer; }
+.login-remember input,.login-ip input { position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+.remember-check { width:1.75rem; height:1.75rem; border:.125rem solid #a5afa8; border-radius:50%; display:grid; place-items:center; }
+.login-remember:has(input:checked) .remember-check { background:#03c75a; border-color:#03c75a; color:white; }
+.login-remember:has(input:focus-visible),.login-ip:has(input:focus-visible) { outline:.125rem solid #03c75a; outline-offset:.25rem; }
+.ip-switch { width:3rem; height:1.75rem; border-radius:1rem; background:#b3bbb6; padding:.1875rem; transition:background .2s; }
+.ip-switch:before { content:''; display:block; width:1.375rem; height:1.375rem; border-radius:50%; background:white; box-shadow:0 .0625rem .1875rem #0002; transition:transform .2s; }
+.login-ip:has(input:checked) .ip-switch { background:#03c75a; }
+.login-ip:has(input:checked) .ip-switch:before { transform:translateX(1.25rem); }
+.login-primary { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+.login-primary button { min-height:10rem; border:0; border-radius:.8125rem; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:.75rem; }
+.login-passkey { background:#f0f3f1; }
+.login-passkey svg { width:1.75rem; height:1.75rem; fill:currentColor; stroke:currentColor; stroke-width:1.5; }
+.login-submit { background:#03c75a; }
+.login-submit:hover { background:#00b953; }
+.login-alternatives { display:grid; grid-template-columns:1fr 1fr; margin-top:1.25rem; padding-top:1.25rem; border-top:.0625rem solid #e2e6e3; }
+.login-alternatives button { display:flex; flex-direction:row-reverse; justify-content:center; align-items:flex-start; gap:.75rem; border:0; background:none; cursor:pointer; padding:0 .75rem; }
+.login-alternatives button+button { border-left:.0625rem solid #d7dcd8; }
+.login-alternatives svg { flex-shrink:0; width:5rem; height:5rem; fill:none; stroke:currentColor; stroke-width:1.5; }
+.login-feedback { margin:0; }
+.login-feedback:not(:empty) { margin-top:1rem; }
+.login-help { display:flex; justify-content:space-around; width:min(100%,25rem); padding:.25rem 0; }
+.login-help a { display:block; padding:0 1.75rem; }
+.login-help a+a { border-left:.0625rem solid #d8dfda; }
+.login-promotion { display:flex; justify-content:space-between; width:100%; min-height:9rem; padding:1rem 1.5rem; background:linear-gradient(145deg,#210036,#4a007b); border-radius:.8125rem; overflow:hidden; }
+.promotion-copy { display:flex; align-items:center; gap:1.75rem; flex:1; }
+.promotion-copy>span { border-right:.0625rem solid #ad83c2; padding-right:1.25rem; }
+.promotion-art { width:52%; max-height:9rem; }
+.login-footer { display:flex; flex-direction:column; align-items:center; gap:1.25rem; padding:.75rem 0; }
+.login-footer nav { display:flex; align-items:start; }
+.login-footer nav>a,.login-language { display:block; padding:0 2rem; }
+.login-footer nav>a+a,.login-language { border-left:.0625rem solid #d9dfda; }
+.login-language>span { position:absolute; width:.0625rem; height:.0625rem; overflow:hidden; clip-path:inset(50%); }
+.login-language select { border:0; background:white; padding:0 .25rem; cursor:pointer; }
+#login-dialog { max-width:min(28rem,calc(100vw - 2rem)); padding:1.75rem; border:.0625rem solid #dce3de; border-radius:1rem; }
+#login-dialog::backdrop { background:#0005; }
+.login-dialog-content { position:relative; display:flex; flex-direction:column; gap:1rem; }
+#login-dialog-close { position:absolute; right:-.75rem; top:-1rem; border:0; background:none; cursor:pointer; }
+#otp-form { display:flex; flex-direction:column; gap:1rem; }
+#otp-form[hidden] { display:none; }
+#otp-form label { display:flex; flex-direction:column; gap:.5rem; }
+#otp-form input { min-width:0; width:100%; padding:.75rem; border:.0625rem solid #c4cec7; border-radius:.5rem; }
+#otp-form button { border:0; border-radius:.5rem; padding:.75rem; background:#03c75a; cursor:pointer; }
+.login-layout a:focus-visible,.login-layout button:focus-visible { outline:.125rem solid #03c75a; outline-offset:.25rem; }
+@media(max-width:36rem) { .page--naver-login { padding:1.5rem 1rem; } .login-logo { height:10rem; width:2.75rem; } .login-card { padding:1.5rem 2rem; } .login-fields { gap:1.5rem; } .login-help a { padding:0 1rem; } .login-promotion { padding:1rem; } .promotion-copy { gap:.75rem; } .login-footer nav>a,.login-language { padding:0 1rem; } }
+@media(prefers-reduced-motion:reduce) { .ip-switch,.ip-switch:before { transition:none; } }
+
+/* 로그인 전체를 화면 중앙에서 같은 비율로 축소합니다. */
+.page.page--naver-login { height:100dvh; min-height:0; overflow:hidden; padding:1rem; }
+.page--naver-login .login-layout { position:absolute; width:33rem; max-width:none; left:50%; top:50%; margin:0; transform:translate(-50%,-50%) scale(var(--login-fit,1)); transform-origin:center; }
+
+/* 언어 선택의 기본 화살표 여백을 제거하고 글자 바로 아래에 배치합니다. */
+.login-footer .login-language { display:flex; flex-direction:column; align-items:center; gap:.375rem; }
+.login-language select { appearance:none; -webkit-appearance:none; width:1.5rem; height:var(--login-language-height,3.5em); padding:0; text-align:start; }
+.login-language::after { content:''; display:block; width:.4375rem; height:.4375rem; border-right:.0625rem solid #59665d; border-bottom:.0625rem solid #59665d; transform:rotate(45deg); pointer-events:none; }
+
+/* 두 로그인 방식은 동일한 아이콘 크기와 안내 영역을 사용합니다. */
+.login-alternatives button>span { display:block; width:2.625rem; height:5rem; flex-shrink:0; }
+
+/* 비밀번호 표시 상태를 눈 아이콘으로 전환합니다. */
+.password-visibility { width:2rem; height:2rem; display:grid; place-items:center; padding:.25rem; }
+.password-visibility svg { display:block; width:1.5rem; height:1.5rem; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.password-visibility[aria-pressed="true"] .visibility-slash { display:none; }
+
+/* 좁은 화면에서는 입력창을 지나치게 축소하지 않고 문서를 스크롤합니다. */
+@media (max-width: 40rem), (max-height: 45rem) {
+ .page.page--naver-login { height: auto; min-height: 100svh; overflow: visible; padding: var(--page-padding); }
+ .page--naver-login .login-layout { position: relative; left: auto; top: auto; width: 100%; max-width: 33rem; transform: none; margin: 0 auto; }
+ .login-card { width: 100%; padding: clamp(.75rem, 4vw, 2rem); }
+ .login-fields { gap: clamp(.75rem, 3vw, 1.5rem); }
+ .login-alternatives { gap: .5rem; }
+ .login-alternatives button { min-width: 0; flex-wrap: wrap; padding: .5rem; }
+ .login-alternatives svg { width: min(4rem, 14vw); height: auto; }
+ .login-footer nav { flex-wrap: wrap; }
+}

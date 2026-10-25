@@ -1,15 +1,992 @@
-.landing-text {
-  font-family: "Nanum Myeongjo", serif;
-  font-size: 16px;
-  line-height: 22px;
-  color: #000000;
-  text-align: left;
-  margin-top: 20px;
+/* 본문 간격 조절: 이 값만 변경하면 연결된 본문에 적용됩니다. */
+:root {
+  /* 일반 본문: 01–09 */
+  --body-font-size: 1.25rem; /* 글자 크기: 20px */
+  --body-font-weight: 450; /* 모든 본문 굵기 */
+  --body-weight-optical-stroke: 0.0125rem; /* 고정 굵기 폰트의 450 시각 보정 */
+  --body-line-gap: 0.9375rem; /* 세로 열 사이 15px: 글자 폭을 고려해 2px 보정 */
+  --body-letter-spacing: 0rem; /* 자간: 글자 사이 간격 */
+  --body-word-spacing: -0.5rem; /* 세로 어간: 기본 공백에 5px 추가 */
+  --body-line-height: calc(var(--body-font-size) + var(--body-line-gap));
+  --stamp-button-word-spacing: -1rem; /* '도장 찍기' 버튼의 어간 */
+
+  /* 00 일러두기 본문: 일반 본문과 별도 조절 */
+  --guide-body-font-size: clamp(1rem, 1.5625vw, 1.875rem);
+  --guide-body-line-height: 1.6; /* 행간: 글자 크기의 배수 */
+  --guide-body-letter-spacing: 0.0125rem;
+  --guide-body-word-spacing: -1.25rem; /* 오늘강산의 세로 공백을 시안의 어간으로 보정 */
+  --reading-heading-gap: 0.8125rem; /* 01: 검은 인덱스와 질문 사이 13px */
+  --reading-rule-text-gap: 0rem; /* 01: 세로선과 질문 글자 사이 간격、여기서 조절 */
+  --body-rule-text-gap: var(--reading-rule-text-gap); /* 00을 제외한 상세 페이지에서 같은 값을 사용 */
 }
 
-/* 세로쓰기 페이지에서 공통으로 사용하는 글자 방향과 서체 */
-.vertical-text {
-  font-family: "Nanum Myeongjo", "Noto Serif KR", serif;
+/* 레귤러 폰트 등록 */
+@font-face {
+  font-family: "Eulyoo1945-Regular.woff"; /* 서체 */
+  src: url("../font/Eulyoo1945-Regular.woff") format("woff"); /* 폰트 파일 경로 */
+  font-style: normal; /* 기울임 */
+  font-weight: 400; /* 글자 굵기 */
+  font-display: swap; /* 로딩 후 폰트 교체 */
+}
+
+/* 세미볼드 폰트 등록 */
+@font-face {
+  font-family: "Eulyoo1945-Regular.woff"; /* 서체 */
+  src: url("../font/Eulyoo1945-SemiBold.woff") format("woff"); /* 폰트 파일 경로 */
+  font-style: normal; /* 기울임 */
+  font-weight: 600; /* 글자 굵기 */
+  font-display: swap; /* 로딩 후 폰트 교체 */
+}
+
+/* 전체 텍스트의 기본 서체와 굵기 */
+body {
+  font-family: "Eulyoo1945-Regular.woff", serif;
+  font-weight: 600; /* 세미볼드 */
+}
+
+/* 기본 브라우저 글자 굵기를 공통 설정으로 통일합니다. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b,
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+/* 모든 페이지의 세로 문장부호 공통 규칙: 자식 텍스트에도 상속됩니다. */
+.page__content {
+  text-orientation: mixed; /* 한글은 정자세, 문장부호는 세로 방향 처리 */
+  font-feature-settings:
+    "vert" 1,
+    "vrt2" 1; /* 폰트의 세로 대체 글리프 */
+}
+
+/* 목차 숫자 */
+.toc-number {
+  font-family: "OnulKangsan-Regular.woff", serif; /* 서체 */
+  font-size: 3.545625rem; /* 글자 크기 */
+  font-weight: 600; /* 글자 굵기 */
+  line-height: 1; /* 줄 간격 */
+  writing-mode: vertical-rl; /* 세로쓰기 방향 */
+  text-orientation: sideways; /* 글자 회전 방향 */
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0; /* 숫자는 세로 대체 글리프 없이 sideways로 표시 */
+  white-space: nowrap; /* 두 자리 숫자를 한 묶음으로 유지 */
+  flex-shrink: 0; /* 숫자 영역이 줄어 제목과 겹치지 않도록 유지 */
+  letter-spacing: 0rem; /* 기본 자간 */
+  word-spacing: 0rem; /* 띄어쓰기 간격 */
+  display: block; /* 블록 표시 */
+  height: 4.243125rem; /* 숫자 영역 높이 */
+  transform: translateX(0); /* 획이 목차 세로선 밖으로 나가지 않도록 정렬 */
+  color: #000; /* 글자 색상 */
+}
+
+/* 목차 한글 */
+.toc-title {
+  font-family: "OnulKangsan-Regular.woff", serif; /* 서체 */
+  font-size: 3.545625rem; /* 글자 크기 */
+  font-weight: 600; /* 글자 굵기 */
+  line-height: 1; /* 줄 간격 */
+  writing-mode: vertical-rl; /* 세로쓰기 방향 */
+  text-orientation: mixed; /* 글자 회전 방향 */
+  letter-spacing: 0rem; /* 기본 자간 */
+  word-spacing: 0rem; /* 기본 띄어쓰기 간격: 음수 보정으로 인한 겹침 방지 */
+  white-space: pre; /* 공백 유지 */
+  display: block; /* 블록 표시 */
+  transform: translateX(0); /* 획이 목차 세로선 밖으로 나가지 않도록 정렬 */
+  color: #000; /* 글자 색상 */
+  margin-top: 1.6875rem; /* 숫자와 한글 사이 간격 */
+}
+
+/* 00.일러두기 제목 숫자 */
+.guide-number {
+  font-family: "OnulKangsan-Regular.woff", serif;
+  font-size: 2.25rem; /* 숫자 크기 */
+  font-weight: 400; /* 원본 강산 레귤러 굵기 */
+  font-synthesis: none;
+  line-height: 1;
+  writing-mode: vertical-rl;
+  text-orientation: sideways; /* 제목 숫자는 기존 sideways 방향으로 표시 */
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  white-space: nowrap;
+  color: #000;
+}
+
+/* 00.일러두기 제목 한글 */
+.guide-title {
+  font-family: "OnulKangsan-Regular.woff", serif;
+  font-size: 2.25rem; /* 제목 한글 크기 */
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 1;
+  writing-mode: vertical-rl;
+  text-orientation: upright; /* 숫자도 정자세로 표시 */
+  margin-top: 0; /* 제목의 시작점은 페이지 배치에서 지정 */
+  color: #000;
+}
+
+/* 00.일러두기 세로 본문 */
+.guide-body-text {
+  font-family: "OnulKangsan-Regular.woff", serif;
+  font-size: var(--guide-body-font-size); /* 본문 크기 */
+  font-weight: var(--body-font-weight);
+  -webkit-text-stroke: var(--body-weight-optical-stroke) currentColor;
+  font-synthesis: none;
+  line-height: var(--guide-body-line-height); /* 세로줄 사이 간격 */
+  writing-mode: vertical-rl;
+  text-orientation: upright; /* 숫자도 정자세로 표시 */
+  letter-spacing: var(--guide-body-letter-spacing); /* 자간 */
+  word-spacing: var(--guide-body-word-spacing); /* 기본 띄어쓰기 간격 */
+  white-space: nowrap; /* 지정한 줄바꿈 유지 */
+  color: #000;
+}
+
+/* 일러두기 문단 기호 */
+.guide-pilcrow {
+  font-size: 1.875rem; /* 문단 기호 크기 */
+  --pilcrow-x: 0rem; /* 가로 위치: 양수는 오른쪽, 음수는 왼쪽 */
+  --pilcrow-y: -0.1875rem; /* 세로 위치: 양수는 아래, 음수는 위 */
+  transform: translate(var(--pilcrow-x), var(--pilcrow-y));
+  display: inline-block;
+  writing-mode: horizontal-tb; /* 정방향 표시 */
+  text-orientation: upright;
+  font-feature-settings: normal; /* 세로 대체 글리프 사용 안 함 */
+}
+
+/* 문단 기호와 다음 본문 사이 간격 */
+.guide__body .guide-pilcrow-block {
+  --pilcrow-text-gap: 0.125rem; /* 본문과의 간격 */
+  margin-left: calc(var(--pilcrow-text-gap) - 3rem); /* 기본 단락 간격 보정 */
+}
+
+/* 목차 물음표만 정방향으로 표시 */
+.toc-question {
+  text-orientation: upright;
+  font-feature-settings: normal; /* 회전된 세로 대체 글리프 해제 */
+}
+
+/* 네이버 검색창의 세로 입력과 커서 */
+.naver-search__input {
+  font-family: "OnulKangsan-Regular.woff", serif;
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  writing-mode: vertical-rl;
+  text-orientation: upright; /* 숫자도 정자세로 표시 */
+  caret-color: #000; /* 검정 커서 */
+  text-align: start; /* 안내 문구와 검색어를 위쪽부터 표시 */
+  color: #222;
+}
+/* 안내 문구는 포커스 상태에서 입력이 비어 있을 때 표시됩니다. */
+.naver-search__input::placeholder {
+  color: transparent;
+  opacity: 1;
+  font-size: 2rem; /* 안내 문구만 2px 확대 */
+  text-align: start; /* 상단 정렬 */
+}
+.naver-search__input:focus::placeholder {
+  color: #999;
+}
+.naver-search__symbol,
+.naver-search__keyboard {
+  color: #c7c7c7;
+}
+
+/* 이미지 검색 화면의 세로쓰기 텍스트 */
+.search-heading,
+.search-home,
+.search-label,
+.search-query,
+.search-submit,
+.search-status {
   writing-mode: vertical-rl;
   text-orientation: upright;
+  font-family: inherit;
+  font-weight: 600;
+  color: #222;
+}
+.search-heading {
+  font-size: 1.75rem;
+}
+.search-query,
+.search-submit,
+.search-status {
+  font-size: 1.125rem;
+}
+.search-status {
+  line-height: 1.8;
+}
+.search-home {
+  text-decoration: none;
+  color: #008d42;
+}
+
+/* 로컬 이미지 생성 결과와 조작 버튼 */
+.search-toggle,
+.search-count {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1rem;
+}
+.search-card figcaption {
+  writing-mode: horizontal-tb;
+  direction: ltr;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* 목차를 제외한 페이지는 숫자를 포함해 세로 글자를 똑바로 표시합니다. */
+.page:not(.page--index) .page__content {
+  text-orientation: upright;
+}
+
+/* 세로형 메일: 메뉴와 조작부는 가로쓰기, 메일 내용은 세로쓰기 */
+.mail-app {
+  writing-mode: horizontal-tb;
+  color: #24272b;
+  font-size: 0.9375rem;
+  font-weight: 400;
+}
+.mail-app button,
+.mail-app a {
+  color: inherit;
+  text-decoration: none;
+}
+.mail-brand span {
+  writing-mode: vertical-rl;
+  font-family: sans-serif;
+  font-size: 1.6875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.compose:first-of-type {
+  color: #13582e;
+  font-weight: 600;
+}
+.folder-button small,
+.mail-summary b {
+  color: #367dff;
+  font-weight: 400;
+}
+.folder-button small {
+  font-size: 0.8125rem;
+}
+.mail-sidebar footer {
+  color: #92959b;
+  font-size: 0.75rem;
+}
+.category {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 0.9375rem;
+  letter-spacing: 0.0625rem;
+}
+.mail-app .category-add {
+  font-size: 1.5625rem;
+  font-family: sans-serif;
+}
+.icon-button,
+#sort-button,
+.mail-search {
+  color: #62666d;
+}
+#more-button {
+  font-size: 1.5rem;
+}
+.mail-search input {
+  writing-mode: horizontal-tb;
+  font-size: 0.9375rem;
+}
+.mail-search input::placeholder {
+  color: #999da5;
+}
+.mail-summary {
+  color: #777b83;
+  font-size: 0.875rem;
+}
+.mail-summary small {
+  font-size: 0.75rem;
+}
+.star {
+  color: #c4c8d1;
+}
+.mail-sender,
+.mail-subject,
+.preview-body {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-feature-settings:
+    "vert" 1,
+    "vrt2" 1;
+}
+.mail-sender,
+.mail-subject {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.mail-attachments,
+.mail-date {
+  color: #888c96;
+}
+.mail-date {
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+.mail-pagination {
+  color: #555;
+  font-size: 0.875rem;
+}
+.mail-pagination .is-active {
+  color: #5284ff;
+}
+.preview-empty h1 {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.5rem;
+  letter-spacing: 0.1875rem;
+  font-weight: 400;
+}
+.preview-empty p {
+  text-align: center;
+  color: #9699a1;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+.preview-envelope {
+  color: #a5a9b3;
+}
+.preview-content h1 {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.preview-content header p {
+  font-size: 0.8125rem;
+  color: #888;
+}
+.preview-body {
+  font-size: 1.1875rem;
+  line-height: 2;
+  letter-spacing: 0.0625rem;
+}
+.mail-toast {
+  color: white;
+  font-size: 0.875rem;
+}
+.compose-dialog {
+  writing-mode: horizontal-tb;
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+.compose-dialog p {
+  font-size: 0.8125rem;
+  color: #777;
+}
+/* 공통 세로쓰기 컨테이너 안에서 메일 앱의 가로 UI 배치를 유지합니다. */
+.page--mail .page__content {
+  writing-mode: horizontal-tb;
+}
+/* 영문은 자연스러운 세로 조판을 사용하고 숫자는 정자세를 유지합니다. */
+.mail-sender,
+.mail-subject {
+  text-orientation: mixed;
+  white-space: nowrap;
+}
+.mail-digit {
+  text-orientation: upright;
+}
+.folder-button span {
+  white-space: nowrap;
+}
+
+/* 확장형·간편형 검색창의 공통 글자 크기 */
+.page--08 .naver-search__input {
+  font-size: 1.375rem;
+}
+.page--08 .naver-search__input::placeholder {
+  font-size: 1.5rem;
+}
+
+/* 네이버 상세 화면의 제목·본문·탐색 링크 */
+.page--naver-detail .detail-layout {
+  writing-mode: horizontal-tb;
+  color: #24372b;
+}
+.detail-nav a,
+.detail-nav button,
+.detail-article header,
+.detail-article > p,
+.detail-related h2,
+.detail-related a {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+.detail-nav a,
+.detail-related a {
+  color: #176638;
+  text-decoration: none;
+}
+.detail-nav a,
+.detail-nav button {
+  font: inherit;
+  font-size: 1rem;
+}
+.detail-article h1 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.7;
+}
+#detail-category {
+  font-size: 0.9375rem;
+  color: #03a64c;
+}
+.detail-article > p {
+  font-size: 1.375rem;
+  line-height: 2;
+  letter-spacing: 0.0625rem;
+}
+.detail-related h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.detail-related a {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* 오른쪽 페이지 탐색 바의 주소와 메뉴 */
+.naver-browserbar {
+  writing-mode: horizontal-tb;
+  color: #a6afa8;
+}
+.browserbar-address input {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.0625rem;
+  color: #7d877f;
+  text-align: center;
+}
+.browserbar-panel {
+  color: #245737;
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+.browserbar-panel a,
+.browserbar-panel button {
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-decoration: none;
+  text-align: left;
+}
+.browserbar-status {
+  color: white;
+  font-size: 0.875rem;
+}
+
+/* 반응형 글자 크기: 세로쓰기와 문장부호 설정은 유지합니다. */
+.toc-number,
+.toc-title {
+  font-size: clamp(1.25rem, 2.9546875vw, 3.545625rem);
+}
+.toc-number {
+  height: clamp(1.625rem, 3.5359375vw, 4.243125rem);
+  transform: translateX(0);
+}
+.toc-title {
+  margin-top: clamp(0.75rem, 1.40625vw, 1.6875rem);
+}
+.guide-number,
+.guide-title {
+  font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+}
+.guide-body-text {
+  font-size: var(--guide-body-font-size);
+  line-height: var(--guide-body-line-height);
+}
+@media (max-width: 60rem) {
+  .guide-body-text {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .detail-article h1 {
+    font-size: clamp(1.25rem, 4vw, 1.875rem);
+  }
+  .detail-article > p {
+    font-size: 1.125rem;
+  }
+}
+
+/* 실제 네이버 메인에서 사용하는 시스템 글꼴 우선순위 */
+.naver-site {
+  --naver-font:
+    -apple-system, system-ui, "Malgun Gothic", "맑은 고딕", helvetica,
+    "Apple SD Gothic Neo", sans-serif;
+  font-family: var(--naver-font);
+}
+.naver-site .naver-search__input,
+.naver-site .mail-brand span,
+.naver-site .category-add,
+.naver-site .browserbar-address input,
+.naver-site .compose-dialog,
+.naver-site svg text {
+  font-family: var(--naver-font);
+}
+
+/* 검색창 안내 문구의 세로 조판과 시각적 간격 보정 */
+.page--08 .naver-search__input {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0;
+  word-spacing: 0;
+  font-weight: 400;
+}
+.page--08 .naver-search__input::placeholder {
+  font-size: 1.25rem;
+  line-height: inherit;
+  letter-spacing: 0;
+  word-spacing: -0.35rem;
+  font-weight: 400;
+}
+
+/* 흰색 네이버 로그인 화면의 세로 글자와 입력 방향 */
+.page--naver-login .login-layout {
+  writing-mode: horizontal-tb;
+  color: #303b34;
+  font-weight: 400;
+}
+.login-field > input {
+  font-family: var(--naver-font);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0;
+  caret-color: #111;
+  color: #252f29;
+}
+.login-field > input::placeholder {
+  color: #66716a;
+  opacity: 1;
+}
+.password-visibility {
+  writing-mode: vertical-rl;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: #778179;
+}
+.login-remember > span:last-child,
+.login-ip > span:first-child,
+.login-primary button > span,
+.login-alternatives button > span,
+.login-help a,
+.promotion-copy > span,
+.login-footer nav > a,
+.login-language select {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+.login-options {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+.login-primary button {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  color: #303b34;
+}
+.login-primary .login-submit {
+  color: white;
+}
+.login-alternatives button {
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: #56635a;
+}
+.login-help a {
+  font-size: 1rem;
+  line-height: 1.4;
+  text-decoration: none;
+  color: #657269;
+}
+.login-help a:last-child {
+  color: #03a84d;
+}
+.login-promotion {
+  text-decoration: none;
+  color: white;
+}
+.promotion-copy > span {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.promotion-copy strong {
+  font-size: 1.125rem;
+  line-height: 1.25;
+}
+.promotion-copy em {
+  font-style: normal;
+  color: #00df7a;
+  font-size: 1.375rem;
+}
+.login-footer {
+  color: #778079;
+  font-size: 0.875rem;
+}
+.login-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+.login-language select {
+  color: #59665d;
+  font: inherit;
+}
+.login-footer small {
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.login-feedback,
+.field-error {
+  color: #c43a3a;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.login-dialog-content {
+  font-family: var(--naver-font);
+  color: #303b34;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.login-dialog-content h2 {
+  margin: 0;
+  font-size: 1.375rem;
+}
+.login-dialog-content p {
+  margin: 0;
+}
+#login-dialog-close {
+  font-size: 1.75rem;
+  color: #66716a;
+}
+.login-dialog-content > a {
+  color: #03a84d;
+}
+
+/* 로그인 방식 안내: 세로 글자 사이에 일정한 여유를 둡니다. */
+.login-alternatives button > span {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  word-spacing: 0;
+  white-space: nowrap;
+  text-align: start;
+}
+
+/* 알림창·모달은 사이트와 같은 세로쓰기 조판을 사용합니다. */
+:root dialog,
+:root [role="dialog"],
+:root [role="alertdialog"],
+:root dialog :is(h1, h2, h3, p, a, label, button, input, textarea, select),
+:root dialog .login-dialog-content,
+:root dialog .compose-dialog {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-feature-settings:
+    "vert" 1,
+    "vrt2" 1;
+  letter-spacing: 0.02em;
+  line-height: 1.65;
+}
+
+/* 작품용 로그인 프로필의 세로 조판 */
+.naver-account {
+  font-family: var(--naver-font);
+  font-size: 0.625rem;
+  color: #555;
+}
+.naver-account a {
+  color: inherit;
+  text-decoration: none;
+}
+.account-columns button,
+.account-identity,
+.account-extras a {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.4;
+}
+.account-name {
+  color: #222;
+  font-weight: 600;
+}
+.account-extras b {
+  color: white;
+}
+.account-extras em {
+  color: #03c75a;
+  font-style: normal;
+}
+
+/* 프로필 카드의 이름·계정 안내·보조 링크 크기 구분 */
+.naver-account {
+  font-size: 0.5rem;
+  line-height: 1.4;
+}
+.account-name {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+.account-id-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.02em;
+}
+.account-logout {
+  font-size: 0.75rem;
+  color: #666;
+}
+.account-extras {
+  font-size: 0.5625rem;
+}
+.account-extras b {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+/* 좁은 로그인 전용 영역 안에서의 글자 비율 */
+.naver-account .account-name {
+  font-size: 0.6875rem;
+}
+.naver-account .account-id-label {
+  font-size: 0.5rem;
+}
+.naver-account .account-logout {
+  font-size: 0.625rem;
+}
+.naver-account .account-extras {
+  font-size: 0.5rem;
+}
+
+/* 목차 전용 오늘강산 레귤러 서체 */
+@font-face {
+  font-family: "OnulKangsan";
+  src: url("../font/OnulKangsan-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+.page--index .toc-number,
+.page--index .toc-title {
+  font-family: "OnulKangsan", serif;
+  font-weight: 400;
+}
+
+/* 방명록의 입력과 안내도 공통 세로쓰기 규칙을 따릅니다. */
+/* 01–02: 페이지 제목、소제목、본문의 세로 조판 */
+:is(.page--01, .page--02) :is(.reading__heading, .reading__aside, .reading__section-heading, .reading__copy) {
+  font-family: "OnulKangsan", serif;
+  font-weight: 400;
+  font-synthesis: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  color: #000;
+}
+:is(.page--01, .page--02) .reading__heading { font-size:clamp(1.25rem,1.875vw,2.25rem); line-height:1; }
+:is(.page--01, .page--02) .reading__page-number { text-orientation:upright; }
+:is(.page--01, .page--02) .reading__index-number {
+  text-orientation: upright;
+  text-combine-upright: none;
+  font-feature-settings: "vert" 0, "vrt2" 0;
+}
+:is(.page--01, .page--02) .reading__aside { font-size:1.25rem; line-height:1.5; letter-spacing:0; word-spacing:-.75rem; }
+:is(.page--01, .page--02) :is(.reading__section-heading, .reading__copy) { font-size:var(--body-font-size); line-height:calc(var(--body-font-size) + .5rem); letter-spacing:var(--body-letter-spacing); word-spacing:var(--body-word-spacing); }
+:is(.page--01, .page--02) .reading__copy { font-weight:var(--body-font-weight); -webkit-text-stroke:var(--body-weight-optical-stroke) currentColor; }
+:is(.page--01, .page--02) .reading__section-heading { font-weight:400; }
+:is(.page--01, .page--02) .reading__index { font-size:var(--body-font-size); line-height:1; text-orientation:upright; }
+
+/* 방명록의 입력과 안내도 공통 세로쓰기 규칙을 따릅니다. */
+.guestbook :is(h1, label, input, button, a),
+.guestbook__header p,
+.guestbook__controls p,
+.guestbook__empty,
+.guestbook__paper > p {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.guestbook__header h1 {
+  font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+  line-height: 1;
+}
+.guestbook__number {
+  text-orientation: sideways;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  white-space: nowrap;
+}
+.guestbook__controls .guestbook__invitation {
+  font-size: clamp(1.25rem, 1.5625vw, 1.875rem);
+  line-height: 1.6;
+}
+.guestbook a {
+  color: inherit;
+  text-underline-offset: 0.25rem;
+}
+.guestbook__empty {
+  color: #998d7d;
+  letter-spacing: 0.2rem;
+}
+.guestbook__paper > p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #000;
+}
+.guestbook__status {
+  color: #000;
+}
+.guestbook__seal {
+  color: #191816;
+  font-family: "Eulyoo1945-Regular.woff", serif;
+  font-weight: 600;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  writing-mode: horizontal-tb;
+}
+.guestbook__seal text {
+  font-size: 5.25rem;
+  line-height: 1;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0.1rem;
+  paint-order: stroke fill;
+}
+
+/* 방명록 도판과 인장 생성 대화상자 */
+.guestbook__intro {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+.guestbook__open {
+  font-size: clamp(1.5rem, 1.875vw, 2.25rem) !important;
+  line-height: 1.05 !important;
+  word-spacing: var(--stamp-button-word-spacing);
+  color: #fff;
+}
+#seal-dialog {
+  font-family: "Eulyoo1945-Regular.woff", serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+#seal-dialog h2 {
+  font-size: 1.5rem;
+}
+#seal-dialog :is(button, input) {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+#seal-dialog .guestbook__dialog-content,
+#seal-dialog #seal-form {
+  writing-mode: horizontal-tb;
+}
+
+.guestbook__instructions {
+  writing-mode: horizontal-tb;
+}
+
+#seal-message {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.guestbook__seal-message {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #000;
+  font-family: "Eulyoo1945-Regular.woff", serif;
+  font-feature-settings:
+    "vert" 1,
+    "vrt2" 1;
+}
+
+.guestbook__pagination :is(button, select, label) {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.guestbook__pagination #seal-page-add {
+  writing-mode: horizontal-tb;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* 일반 본문: 01–09에 공통 적용、배치는 페이지 CSS에서 관리합니다. */
+.page:not(.page--00) .body-rule-text {
+  padding-left: var(--body-rule-text-gap);
+}
+
+/* 01 질문은 글꼴의 넓은 행 상자가 만드는 추가 간격도 줄인다. */
+:is(.page--01, .page--02) .reading__question.body-rule-text {
+  padding-left: var(--reading-rule-text-gap);
+  line-height: 1;
+}
+
+.body-text {
+  font-family: inherit;
+  font-weight: var(--body-font-weight);
+  -webkit-text-stroke: var(--body-weight-optical-stroke) currentColor;
+  font-synthesis: none;
+  font-size: var(--body-font-size); /* 20px */
+  line-height: var(--body-line-height); /* 글자 20px + 행간 13px */
+  letter-spacing: var(--body-letter-spacing);
+  word-spacing: var(--body-word-spacing); /* 7px */
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  color: #000;
+}
+
+/* 방명록의 열을 담는 컨테이너는 가로축을 유지합니다. */
+.page--09 .guestbook__intro,
+.page--09 .guestbook__intro .guestbook__paragraph {
+  writing-mode: horizontal-tb;
+}
+
+/* 모든 페이지의 표시 글꼴을 실제 포함된 오늘강산 파일로 통일합니다. */
+html body,
+html body :where(*),
+html body :where(*::before, *::after) {
+  font-family: "OnulKangsan", serif !important;
 }

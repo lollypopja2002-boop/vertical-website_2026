@@ -1,0 +1,92 @@
+/* 검색 결과 페이지도 공통 68px 패딩과 8단·16px 간격을 사용합니다. */
+.page--search {
+  height: min(calc(100vw * 9 / 16), 100svh, 67.5rem); /* 결과 스크롤 영역의 기준 높이 */
+  background: #fff;
+}
+.page--search .search-content {
+  writing-mode: horizontal-tb; /* 8단 격자는 가로축, 텍스트는 별도 세로쓰기 */
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 1rem;
+}
+.search-header {
+  grid-column: 7 / 9;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 1.5rem;
+}
+.search-heading { margin: 0; }
+.search-home {
+  display: block;
+  flex: 0 0 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.search-home__logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: #03c75a;
+}
+.search-home:focus-visible {
+  outline: 0.125rem solid #008d42;
+  outline-offset: 0.375rem;
+}
+.search-form { display: flex; align-items: start; gap: 1rem; }
+.search-query {
+  height: 23.75rem;
+  width: 3.25rem;
+  padding: 1rem 0.5rem;
+  border: 0.0625rem solid #03c75a;
+  border-radius: 1.625rem;
+}
+.search-query:focus-visible { outline: 0.125rem solid #008d42; outline-offset: 0.1875rem; }
+.search-submit { padding: 1rem 0.5rem; border: 0; border-radius: 1rem; background: #03c75a; cursor: pointer; }
+.search-results { grid-column: 1 / 7; grid-row: 1; }
+.search-status { margin: 0; }
+
+/* 결과 영역은 세로로 스크롤하며 최근 생성 이미지부터 표시합니다. */
+.search-results {
+  writing-mode: horizontal-tb;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 0.25rem;
+}
+.page--search .search-content { grid-template-rows: minmax(0, 1fr); }
+.search-header { flex-wrap: wrap; align-content: start; }
+.search-status { min-height: 6.25rem; max-height: 14.375rem; }
+.search-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  direction: rtl;
+}
+.search-card { margin: 0; }
+.search-card img { display: block; width: 100%; height: auto; border-radius: 0.5rem; }
+.search-card figcaption { margin-top: 0.5rem; }
+.search-controls { display: flex; gap: 1rem; align-items: start; }
+.search-toggle { padding: 1rem 0.5rem; background: #f2f2f2; border: 0.0625rem solid #ccc; border-radius: 0.75rem; cursor: pointer; }
+@media (max-width: 56.25rem) {
+  .search-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.page--search { width:100%; min-height:100svh; height:100svh; aspect-ratio:auto; overflow:hidden; }
+.page--search .search-content { height:100%; min-height:0; }
+.search-header { min-width:0; }
+.search-query { max-height:45svh; }
+@media(max-width:60rem) {
+ .page--search .search-content { grid-template-columns:minmax(0,1fr) auto; gap:1rem; }
+ .search-header { grid-column:2; }
+ .search-results { grid-column:1; }
+ .search-header,.search-form,.search-controls { gap:.5rem; }
+ .search-heading { display:none; }
+ .search-gallery { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:35rem) { .search-gallery { grid-template-columns:1fr; } .search-query { width:2.75rem; } }
+
+@media (max-width: 35rem), (max-height: 35rem) {
+ .page--search .search-header { overflow: auto; max-height: 100%; flex-wrap: nowrap; }
+ .search-form, .search-controls { flex-shrink: 0; }
+ .search-query { height: min(23.75rem, 50svh); min-height: 6rem; }
+ .search-results { min-width: 0; min-height: 0; overflow: auto; }
+}

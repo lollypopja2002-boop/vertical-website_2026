@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>세로쓰기 — 09 방명록</title>
+    <link rel="stylesheet" href="css/font.css?v=body-weight450" />
+    <link rel="stylesheet" href="css/common.css?v=responsive20261025" />
+    <link rel="stylesheet" href="css/09.css?v=body-spacing-vars1" />
+    <script src="java/guestbook.js?v=guestbook17" defer></script>
+  </head>
+  <body>
+    <!-- 공유 필터: 글자와 테두리에 같은 먹의 번짐과 작은 결손을 적용합니다. -->
+    <svg class="guestbook__filters" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="0" height="0" focusable="false">
+      <defs>
+        <filter id="seal-ink" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency=".12" numOctaves="3" seed="8" result="edge" />
+          <feDisplacementMap in="SourceGraphic" in2="edge" scale="1.3" xChannelSelector="R" yChannelSelector="G" result="carved" />
+          <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" seed="21" result="grain" />
+          <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" />
+          <feComponentTransfer result="ink-mask"><feFuncA type="discrete" tableValues="0 0 0 1 1 1 1 1" /></feComponentTransfer>
+          <feComposite in="carved" in2="ink-mask" operator="in" />
+        </filter>
+      </defs>
+    </svg>
+    <main class="page page--09" aria-label="09 방명록">
+      <div class="page__content guestbook">
+        <header class="guestbook__header">
+          <h1><span class="guestbook__number">09</span><span>방명록</span></h1>
+        </header>
+        <div class="guestbook__reading" tabindex="0" aria-label="방명록 안내와 사용 방법、스크롤해서 읽기">
+        <section class="guestbook__intro page__body" aria-label="방명록 안내">
+          <p class="guestbook__paragraph"><span class="guestbook__column body-text">○ 이 공간에서는 자신의 이름을 세로쓰기에 맞는 인장으로 만들어 페이지에 찍어</span><span class="guestbook__column body-text">남길 수 있습니다。이름을 입력하면 글자가 위에서 아래로 배열된 인장이 생성되며、</span><span class="guestbook__column body-text">원하는 위치에 인장을 찍어 방문 기록을 남길 수 있습니다。</span></p>
+          <p class="guestbook__paragraph"><span class="guestbook__column body-text">○ 방문자들이 남긴 인장은 하나의 페이지에 차례로 쌓이며、다른 사람들이</span><span class="guestbook__column body-text">남긴 인장도 함께 살펴볼 수 있습니다。</span></p>
+        </section>
+        <nav class="guestbook__instructions" aria-label="도장 찍는 방법">
+          <p class="body-text">① 도장찍기를 눌러주세요。</p>
+          <p class="body-text">② 이름을 입력하고 기록하고 싶은 글을 남겨주세요。</p>
+          <p class="body-text">③ 남기기를 누른뒤 화면 속 원하는 공간을 눌러 이름을 남겨주세요。</p>
+          <p class="body-text">④ 남겨진 도장 위로 마우스를 가져다두면 이름과 함께 글을 볼 수 있습니다。</p>
+        </nav>
+        </div>
+        <section class="guestbook__paper" aria-label="도장 방명록">
+          <div id="seal-board" class="guestbook__board" role="button" tabindex="0" aria-label="방명록에 도장 찍기" aria-describedby="board-help" aria-disabled="true">
+            <div id="seal-canvas" class="guestbook__canvas"><img id="seal-empty" class="guestbook__empty-logo" src="img/%E1%84%8C%E1%85%A1%E1%84%89%E1%85%A1%E1%86%AB%2012logo_stamp.svg" alt="" hidden /></div>
+          </div>
+        </section>
+        <nav class="guestbook__pagination" aria-label="방명록 장 선택">
+          <div id="seal-page-dots" class="guestbook__page-dots"></div>
+          <button id="seal-page-add" type="button" aria-label="새 장 추가">＋</button>
+        </nav>
+        <button class="guestbook__open" id="seal-open" type="button" aria-haspopup="dialog">도장 찍기</button>
+        <img class="page-bolt page-bolt--top-left" src="img/bolt%20graphic.svg" alt="" />
+        <img class="page-bolt page-bolt--top-right" src="img/bolt%20graphic.svg" alt="" />
+        <img class="page-bolt page-bolt--bottom-left" src="img/bolt%20graphic.svg" alt="" />
+        <img class="page-bolt page-bolt--bottom-right" src="img/bolt%20graphic.svg" alt="" />
+      </div>
+    </main>
+    <dialog id="seal-dialog" aria-labelledby="seal-dialog-title">
+      <div class="guestbook__dialog-content">
+        <h2 id="seal-dialog-title">나의 인장 만들기</h2>
+        <form id="seal-form">
+          <label for="seal-name">인장에 새길 이름</label>
+          <input id="seal-name" name="name" type="text" autocomplete="name" maxlength="24" placeholder="이름" required aria-describedby="seal-help" />
+          <p id="seal-help">한글、영문、숫자로 열두 자까지 새길 수 있어요。</p>
+          <label for="seal-message">남길 글</label>
+          <textarea id="seal-message" name="message" maxlength="200" placeholder="남기고 싶은 글" rows="4"></textarea>
+          <button type="submit">인장 만들기</button>
+        </form>
+        <div class="guestbook__preview" id="seal-preview" aria-label="인장 미리보기"></div>
+        <button id="seal-use" type="button" disabled>이 인장으로 찍기</button>
+        <button id="seal-undo" type="button" disabled>마지막 도장 취소</button>
+        <p id="seal-status" role="status" aria-live="polite">이름을 입력해 나만의 인장을 만들어 주세요。</p>
+        <p id="board-help">인장을 만든 뒤 원하는 곳을 눌러 찍으세요。키보드로는 방명록 영역에서 Enter 또는 스페이스를 누르세요。</p>
+        <p id="seal-storage">현재 도장은 이 브라우저에만 저장되며、다른 방문자와 공유되지 않아요。</p>
+        <button id="seal-close" type="button">닫기</button>
+      </div>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+.page--09 { background: #fff; }
+.page--09 .guestbook { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 1rem; writing-mode: horizontal-tb; }
+.guestbook__header h1 { margin: 0; }
+.guestbook__board { position: relative; overflow: hidden; touch-action: manipulation; }
+.guestbook__board[aria-disabled="false"] { cursor: crosshair; }
+.guestbook__filters { position: absolute; pointer-events: none; overflow: hidden; }
+.guestbook__seal { --seal-size: 5rem; display: block; width: var(--seal-size); height: var(--seal-size); flex: none; pointer-events: none; }
+.guestbook__seal > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.guestbook__seal--placed { position: absolute; transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)); mix-blend-mode: multiply; opacity: .94; }
+/* 첨부 화면: 오른쪽 제목과 안내、왼쪽의 넓은 날인 영역 */
+.page--09 .guestbook { min-height: calc(100svh - var(--page-padding) * 2); }
+.guestbook__header { position: absolute; top: 0; right: clamp(0rem, 7.1vw, 8.5rem); display: block; }
+.guestbook__header h1 { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding-top: 3.625rem; border-left: .1875rem solid #000; }
+.guestbook__number { position: absolute; top: 0; left: 0; }
+.guestbook__intro { position: absolute; top: 3.75rem; right: clamp(7rem, 14.6vw, 17.5rem); height: 46rem; max-height: 85%; display: flex; flex-direction: row-reverse; gap: 1.5rem; }
+.guestbook__intro p { margin: 0; height: 100%; }
+.guestbook__paper { position: absolute; inset: 0 38.5% 0 0; display: block; }
+.guestbook__board { width: 100%; height: 100%; min-height: 35rem; border: 0; background: #fff; }
+.guestbook__seal { --seal-size: clamp(5rem, 7.5vw, 9rem); }
+.guestbook__open { position: absolute; left: 2rem; bottom: 0; z-index: 1; border: 0; padding: .2rem 0; cursor: pointer; background: #000; }
+.guestbook__placement { position: absolute; left: 5rem; bottom: 0; margin: 0; max-height: 20rem; pointer-events: none; }
+#seal-dialog { border: .125rem solid #000; background: #fff; padding: 2rem; width: auto; max-width: calc(100vw - 2rem); max-height: calc(100svh - 2rem); overflow: auto; }
+#seal-dialog::backdrop { background: rgb(0 0 0 / .18); }
+.guestbook__dialog-content { display: flex; flex-direction: row-reverse; gap: 1.5rem; height: min(34rem, 75svh); }
+.guestbook__dialog-content :is(h2, p) { margin: 0; }
+#seal-form { display: flex; flex-direction: row-reverse; align-items: flex-start; gap: 1rem; }
+#seal-name { width: 3rem; height: 16rem; padding: .75rem .5rem; border: 0; border-right: .0625rem solid #000; border-radius: 0; background: transparent; }
+#seal-dialog button { background: #fff; border: .0625rem solid #000; padding: .75rem .5rem; cursor: pointer; }
+#seal-dialog button:disabled { opacity: .35; cursor: default; }
+#seal-dialog .guestbook__preview { width: 7rem; height: 7rem; border: 0; flex: none; }
+#seal-dialog .guestbook__seal { --seal-size: 6rem; }
+:is(.guestbook, #seal-dialog) :is(button, input, [tabindex]):focus-visible { outline: .125rem solid #000; outline-offset: .25rem; }
+@media (max-width: 60rem) {
+ .page--09 .guestbook { height: auto; grid-template-rows: auto auto 35rem; row-gap: 2rem; padding-bottom: 8rem; }
+ .guestbook__header { position: relative; right: auto; grid-column: 8; grid-row: 1; justify-self: end; }
+ .guestbook__intro { position: relative; top: auto; right: auto; grid-column: 1 / -1; grid-row: 2; height: 32rem; max-height: none; justify-content: flex-start; }
+ .guestbook__paper { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 3; }
+ .guestbook__open { left: 0; }
+ .guestbook__placement { left: 3rem; }
+ .guestbook__seal { --seal-size: 6rem; }
+}
+
+.guestbook__instructions { position: absolute; top: 3.75rem; right: calc(clamp(7rem, 14.6vw, 17.5rem) + 12rem); height: 49rem; max-height: 86%; display: flex; flex-direction: row-reverse; gap: .5rem; padding: 0 1.2rem; border-inline: .0625rem solid #000; }
+.guestbook__instructions p { margin: 0; }
+.guestbook__seal--logo { object-fit: contain; opacity: 1; }
+.guestbook__seal--placed:not(.guestbook__seal--logo) { pointer-events: auto; }
+#seal-message { width: 7rem; height: 16rem; resize: horizontal; padding: .5rem; border: .0625rem solid #000; background: #fff; }
+@media (max-width: 60rem) {
+ .page--09 .guestbook { grid-template-rows: auto auto auto 35rem; }
+ .guestbook__instructions { position: relative; top: auto; right: auto; grid-column: 1 / -1; grid-row: 3; height: 30rem; max-height: none; justify-self: end; max-width: 100%; overflow-x: auto; }
+ .guestbook__paper { grid-row: 4; }
+}
+
+/* 커서 미리보기는 실제 날인과 같은 크기로 표시하며 클릭을 가로채지 않습니다. */
+.guestbook__seal--ghost { position: absolute; transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)); opacity: .2; pointer-events: none; z-index: 2; }
+.guestbook__seal--ghost[hidden] { display: none; }
+
+/* 새로 찍은 도장만 종이에 눌렸다가 안착합니다. */
+.guestbook__seal--press { animation: seal-press 360ms cubic-bezier(.2, .7, .25, 1) both; }
+@keyframes seal-press {
+  0% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(1.28); opacity: 0; }
+  38% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(.94); opacity: 1; }
+  64% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(1.035); opacity: .98; }
+  100% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(1); opacity: .94; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guestbook__seal--press { animation: none; }
+}
+
+/* 선택한 한 장만 날인 창 안에 표시합니다. */
+.guestbook__paper { left: 4.5%; right: 39%; }
+.guestbook__board { overflow: hidden; min-height: 0; touch-action: manipulation; }
+.guestbook__canvas { position: relative; height: 100%; width: 100%; min-height: 0; }
+@media (max-width: 60rem) {
+ .guestbook__paper { left: auto; right: auto; }
+ .guestbook__board { height: 35rem; }
+}
+
+/* 문구는 흐려진 인장 위에 독립적으로 표시합니다. */
+.guestbook__seal-message { position: absolute; inset: 0; display: none; overflow: auto; padding: .2rem; transform: scale(calc(1 / var(--seal-scale, 1))); pointer-events: auto; }
+.guestbook__seal--placed:not(.guestbook__seal--logo):is(:hover, :focus) { opacity: 1 !important; z-index: 3; }
+.guestbook__seal--placed:is(:hover, :focus) > svg { opacity: .3; }
+.guestbook__seal--placed:is(:hover, :focus) > .guestbook__seal-message { display: block; }
+
+.guestbook__pagination { position: absolute; left: 2.5rem; top: 3.75rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; max-height: calc(100% - 4rem); overflow-y: auto; scrollbar-width: thin; }
+.guestbook__page-dots { display: flex; flex-direction: column; gap: .4rem; }
+.guestbook__pagination button { display: grid; place-items: center; width: 1.3rem; height: 1.3rem; padding: 0; flex: none; background: #fff; color: #000; border: .0625rem solid #aaa; border-radius: 50%; cursor: pointer; }
+.guestbook__page-dots button[aria-current="page"] { background: #000; border-color: #000; }
+.guestbook__open { left: auto; bottom: auto; top: 3.75rem; right: calc(clamp(7rem, 14.6vw, 17.5rem) + 24.5rem); }
+.guestbook__empty-logo { position: absolute; top: 50%; left: 50%; width: clamp(5rem, 7.5vw, 9rem); transform: translate(-50%, -50%); opacity: .2; pointer-events: none; }
+.guestbook__empty-logo[hidden] { display: none; }
+@media (max-width: 60rem) {
+ .guestbook__pagination { position: relative; left: auto; top: auto; grid-column: 1; grid-row: 4; z-index: 3; max-height: 32rem; overflow: auto; align-self: start; }
+ .guestbook__open { position: relative; top: auto; right: auto; left: auto; grid-column: 1; grid-row: 3; align-self: start; justify-self: start; }
+ .guestbook__empty-logo { width: 6rem; }
+}
+
+/* 본문과 사용 안내가 같은 시작 높이를 공유합니다. */
+.guestbook__instructions { top: var(--body-top); right: calc(var(--body-right) + 12rem); }
+.guestbook__open { top: var(--body-top); right: calc(var(--body-right) + 24.5rem); }
+@media (max-width: 60rem) {
+ .guestbook__instructions, .guestbook__open { top: auto; right: auto; }
+}
+
+/* 참조 이미지의 다섯 본문 열과 네 안내 열을 명시적으로 고정합니다. */
+.page--09 .guestbook__intro.page__body {
+ display: flex; flex-direction: row-reverse; align-items: flex-start;
+ gap: var(--body-line-height); width: calc(var(--body-line-height) * 6); height: 49rem;
+ top: var(--body-top); right: var(--body-right); max-width: none; max-height: none;
+}
+.guestbook__intro .guestbook__paragraph { display: flex; flex-direction: row-reverse; flex: none; gap: 0; margin: 0; height: auto; }
+.guestbook__column { display: block; flex: 0 0 var(--body-line-height); width: var(--body-line-height); }
+.page--09 .guestbook__instructions { top: var(--body-top); right: calc(var(--body-right) + calc(var(--body-line-height) * 6)); width: 10rem; height: 49rem; max-height: none; padding: 0 .8125rem; gap: 0; align-items: flex-start; }
+.guestbook__instructions p { flex: 0 0 var(--body-line-height); width: var(--body-line-height); }
+.page--09 .guestbook__open { top: var(--body-top); right: calc(var(--body-right) + 24.5rem); }
+@media (max-width: 60rem) {
+ .page--09 .guestbook__intro.page__body { position: relative; top: auto; right: auto; justify-self: end; height: 49rem; overflow: visible; }
+ .page--09 .guestbook__instructions { top: auto; right: auto; height: 49rem; }
+ .page--09 .guestbook__open { top: auto; right: auto; }
+}
+
+.guestbook__reading { display: contents; }
+#seal-dialog .guestbook__dialog-content { width: max-content; max-width: none; height: min(34rem, calc(100svh - 6rem)); }
+#seal-dialog .guestbook__dialog-content > *, #seal-dialog #seal-form > * { flex-shrink: 0; }
+#seal-dialog #seal-form :is(input, textarea) { height: min(16rem, calc(100svh - 9rem)); }
+@media (max-width: 90rem), (max-height: 50rem) {
+ .page--09 .guestbook { height: auto; min-height: calc(100svh - var(--page-padding) * 2); grid-template-rows: auto auto auto auto; padding-bottom: 2rem; row-gap: 2rem; }
+ .page--09 .guestbook__header { position: relative; top: auto; right: auto; grid-column: 7 / 9; grid-row: 1; justify-self: end; }
+ .page--09 .guestbook__open { position: relative; top: auto; right: auto; left: auto; bottom: auto; grid-column: 1 / 3; grid-row: 1; justify-self: start; align-self: start; }
+ .guestbook__reading { display: flex; flex-direction: row; direction: rtl; grid-column: 1 / -1; grid-row: 2; gap: 0; width: 100%; height: min(51rem, 75svh); overflow: auto; overscroll-behavior: contain; padding-bottom: 1rem; }
+ .page--09 .guestbook__reading .guestbook__intro.page__body { position: relative; flex: none; top: auto; right: auto; direction: ltr; width: calc(var(--body-line-height) * 6); height: 49rem; max-height: none; max-width: none; overflow: visible; }
+ .page--09 .guestbook__reading .guestbook__instructions { position: relative; flex: none; top: auto; right: auto; direction: ltr; width: 10rem; height: 49rem; max-height: none; overflow: visible; }
+ .page--09 .guestbook__pagination { position: relative; left: auto; top: auto; grid-column: 1 / -1; grid-row: 3; flex-direction: row; flex-wrap: nowrap; justify-self: stretch; width: 100%; max-height: none; overflow: auto; padding: .4rem; }
+ .guestbook__page-dots { flex-direction: row; flex: none; }
+ .page--09 .guestbook__paper { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 4; height: clamp(22rem, 65svh, 40rem); min-width: 0; }
+ .page--09 .guestbook__board { height: 100%; min-height: 0; }
+}
+@media (max-width: 90rem), (max-height: 50rem) {
+ .page--09 .guestbook { padding-top: 3rem; }
+}

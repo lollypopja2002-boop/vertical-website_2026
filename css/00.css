@@ -1,0 +1,102 @@
+/* 일러두기 페이지 배치 */
+.page--00 { background: #fff; }
+
+/* 오른쪽 제목과 세로선 */
+.guide__heading {
+  position: absolute;
+  top: 0; /* 공통 상단 패딩에서 시작 */
+  right: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  writing-mode: horizontal-tb;
+  border-left: 0.1875rem solid #000;
+  margin: 0;
+  padding: 0;
+}
+
+/* 본문 단락을 오른쪽에서 왼쪽으로 나란히 배치 */
+.guide__body {
+  position: absolute;
+  top: 3.75rem; /* 공통 패딩에서 60px 내려 본문 시작 */
+  right: 18.1875rem;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: 3rem;
+  writing-mode: horizontal-tb;
+}
+
+.guide__body p { margin: 0; }
+
+/* 콘텐츠 여백과 별개로 페이지 가장자리 30px 위치를 유지합니다. */
+.guide__bolt {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  pointer-events: none;
+}
+.guide__bolt--top-right { top: calc(var(--bolt-offset) - var(--page-padding)); right: calc(var(--bolt-offset) - var(--page-padding)); }
+.guide__bolt--top-left { top: calc(var(--bolt-offset) - var(--page-padding)); left: calc(var(--bolt-offset) - var(--page-padding)); }
+.guide__bolt--bottom-right { bottom: calc(var(--bolt-offset) - var(--page-padding)); right: calc(var(--bolt-offset) - var(--page-padding)); }
+.guide__bolt--bottom-left { bottom: calc(var(--bolt-offset) - var(--page-padding)); left: calc(var(--bolt-offset) - var(--page-padding)); }
+
+/* 제목은 숫자 아래에 배치합니다. */
+.guide__heading {
+  padding-top: 3.625rem; /* 숫자 영역과 제목 사이 공간 */
+}
+
+/* 숫자는 제목 위에 독립 배치해 한글 시작 위치에 영향을 주지 않습니다. */
+.guide__heading .guide-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* 문단 기호도 본문과 같은 위쪽 가장자리에서 시작합니다. */
+.guide__body .guide-pilcrow-block {
+  writing-mode: horizontal-tb;
+  line-height: 1;
+}
+
+.guide-pilcrow {
+  vertical-align: top;
+}
+
+/* 본문 단락이 작은 화면에서도 잘리지 않도록 재배치합니다. */
+.guide__heading { right:clamp(0rem,8.333333vw,10rem); padding-top:clamp(2.5rem,3.020833vw,3.625rem); }
+.guide__body { right:clamp(7rem,15.15625vw,18.1875rem); gap:clamp(1rem,2.5vw,3rem); }
+@media(max-width:75rem) {
+ .page--00 .page__content { display:flex; flex-direction:column; gap:2rem; writing-mode:horizontal-tb; }
+ .guide__heading { position:relative; align-self:flex-end; right:auto; }
+ .guide__body { position:relative; top:auto; right:auto; display:flex; flex-wrap:wrap; justify-content:flex-start; width:100%; }
+ .guide__body .guide-text { height:min(70svh,40rem); max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+ .guide__body .guide-pilcrow-block { height:auto; }
+}
+@media(max-width:40rem) {
+ .guide__body { display:grid; grid-template-columns:1fr; justify-items:end; }
+ .guide__body .guide-text { width:100%; max-height:70svh; }
+ .guide__bolt--bottom-left,.guide__bolt--bottom-right { position:fixed; bottom:var(--bolt-offset); }
+}
+@media(max-width:40rem) {
+ .guide__heading { margin-right:2.5rem; }
+ .guide__body { display:flex; flex-direction:row-reverse; flex-wrap:wrap; align-items:flex-start; gap:1.5rem; }
+ .guide__body .guide-text { width:auto; height:min(60svh,30rem); max-width:100%; }
+ .guide__body .guide-pilcrow-block { flex:0 0 auto; width:auto; height:auto; }
+}
+@media(max-width:40rem) {
+ .guide__body .guide-pilcrow-block { margin:0; }
+ .page--00 .page__content { height:auto; padding-bottom:3rem; }
+ .guide__bolt--bottom-left,.guide__bolt--bottom-right { position:absolute; bottom:calc(var(--bolt-offset) - var(--page-padding)); }
+}
+
+@media (max-width: 75rem), (max-height: 45rem) {
+ .page--00 .page__content { display: flex; flex-direction: column; gap: 2rem; height: auto; writing-mode: horizontal-tb; padding-bottom: 3rem; }
+ .guide__heading { position: relative; right: auto; align-self: flex-end; }
+ .guide__body { position: relative; top: auto; right: auto; width: 100%; display: flex; flex-wrap: wrap; gap: clamp(1rem, 3vw, 3rem); }
+ .guide__body .guide-text { height: min(42rem, 75svh); max-width: 100%; overflow: auto; }
+ .guide__body .guide-pilcrow-block { height: auto; }
+}
+@media (max-width: 75rem), (max-height: 45rem) {
+ .page--00 .page__content { padding-top: 3rem; }
+}

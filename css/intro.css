@@ -1,47 +1,84 @@
 /* Intro 페이지 전용 스타일 */
+/* .intro__graphic에 적용되는 스타일 */
 .intro__graphic {
+  /* 배치 기준: relative는 자식의 기준, fixed는 화면에 고정 */
   position: fixed;
+  /* 기준 영역 위쪽에서의 거리 */
   top: 50%;
+  /* 기준 영역 왼쪽에서의 거리 */
   left: 50%;
-  transform: translate(-50%, -50%);
+  /* 자기 크기의 절반만큼 이동하여 중앙 기준점을 맞춤 */
+  /* 기본 글자 형태의 실제 외곽이 호버 그림보다 커 보여 중심 기준으로 축소 */
+  transform: translate(-50%, -50%) scale(0.88);
+  /* 요소의 배치 방식: grid는 격자, flex는 유연한 정렬, block은 블록 */
   display: block;
-  width: 432px;
-  height: 488px;
+  /* 요소 너비; %는 부모 기준, min()은 가장 작은 값 선택 */
+  width: 27rem;
+  /* 요소 높이 */
+  height: 30.5rem;
+  /* 최대 너비; 화면 너비에서 좌우 여백을 제외 */
   max-width: calc(100vw - var(--page-padding) * 2);
+  /* 최대 높이; 현재 화면 높이에서 위아래 여백을 제외 */
   max-height: calc(100dvh - var(--page-padding) * 2);
+  /* contain은 이미지 전체를 표시, cover는 영역을 채우며 일부 잘릴 수 있음 */
   object-fit: contain;
+  /* 마우스를 올렸을 때 표시할 커서 */
   cursor: pointer;
 }
 
+/* .intro__graphic:hover에 적용되는 스타일 */
 .intro__graphic:hover {
+  /* 호버할 때 대신 표시할 이미지 경로 */
   content: url("../img/intro_1_hover.svg");
+  /* 기본 상태와 호버 상태의 보이는 크기를 맞춤 */
+  transform: translate(-50%, -50%) scale(0.9);
 }
 
+/* .intro__bolt에 적용되는 스타일 */
 .intro__bolt {
+  /* 배치 기준: relative는 자식의 기준, fixed는 화면에 고정 */
   position: fixed;
+  /* 요소의 배치 방식: grid는 격자, flex는 유연한 정렬, block은 블록 */
   display: block;
-  width: 40px;
-  height: 40px;
+  /* 요소 너비; %는 부모 기준, min()은 가장 작은 값 선택 */
+  width: 2.5rem;
+  /* 요소 높이 */
+  height: 2.5rem;
+  /* contain은 이미지 전체를 표시, cover는 영역을 채우며 일부 잘릴 수 있음 */
   object-fit: contain;
+  /* none은 마우스 입력을 가로채지 않도록 설정 */
   pointer-events: none;
 }
 
+/* .intro__bolt--top-left에 적용되는 스타일 */
 .intro__bolt--top-left {
-  top: var(--page-padding);
-  left: var(--page-padding);
+  /* 기준 영역 위쪽에서의 거리 */
+  top: var(--bolt-offset);
+  /* 기준 영역 왼쪽에서의 거리 */
+  left: var(--bolt-offset);
 }
 
+/* .intro__bolt--top-right에 적용되는 스타일 */
 .intro__bolt--top-right {
-  top: var(--page-padding);
-  right: var(--page-padding);
+  /* 기준 영역 위쪽에서의 거리 */
+  top: var(--bolt-offset);
+  /* 기준 영역 오른쪽에서의 거리 */
+  right: var(--bolt-offset);
 }
 
+/* .intro__bolt--bottom-left에 적용되는 스타일 */
 .intro__bolt--bottom-left {
-  bottom: var(--page-padding);
-  left: var(--page-padding);
+  /* 기준 영역 아래쪽에서의 거리 */
+  bottom: var(--bolt-offset);
+  /* 기준 영역 왼쪽에서의 거리 */
+  left: var(--bolt-offset);
 }
 
+/* .intro__bolt--bottom-right에 적용되는 스타일 */
 .intro__bolt--bottom-right {
-  bottom: var(--page-padding);
-  right: var(--page-padding);
+  /* 기준 영역 아래쪽에서의 거리 */
+  bottom: var(--bolt-offset);
+  /* 기준 영역 오른쪽에서의 거리 */
+  right: var(--bolt-offset);
 }
+.intro__graphic { width:min(27rem,calc(100vw - var(--page-padding)*2)); height:min(30.5rem,calc(100svh - var(--page-padding)*2)); }

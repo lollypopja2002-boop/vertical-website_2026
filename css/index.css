@@ -1,1 +1,145 @@
-/* Index 페이지 전용 스타일 */
+/* 목차: 공통 68px 여백 안의 8단 그리드 */
+/* .page--index에 적용되는 스타일 */
+.page--index {
+  /* 배경색 */
+  background: #fff;
+}
+
+/* .contents-enter .page--index에 적용되는 스타일 */
+.contents-enter .page--index {
+  /* 애니메이션 이름·재생 시간·속도 곡선·시작 및 끝 상태 유지 */
+  animation: contents-fade-in 1000ms cubic-bezier(.4, 0, .2, 1) both;
+}
+
+/* 페이드인 애니메이션의 시작과 끝 상태 */
+@keyframes contents-fade-in {
+  /* 시작 상태: 완전히 투명 */
+  from {
+    opacity: 0;
+  }
+  /* 종료 상태: 완전히 표시 */
+  to {
+    opacity: 1;
+  }
+}
+
+/* 사용자의 동작 줄이기 설정에서는 애니메이션을 생략 */
+@media (prefers-reduced-motion: reduce) {
+  /* .contents-enter .page--index에 적용되는 스타일 */
+  .contents-enter .page--index {
+    /* 애니메이션 이름·재생 시간·속도 곡선·시작 및 끝 상태 유지 */
+    animation: none;
+  }
+}
+
+/* .page--index .page__content에 적용되는 스타일 */
+.page--index .page__content {
+  /* 8단 격자는 화면의 가로축을 유지하고, 각 텍스트에서 세로쓰기를 적용합니다. */
+  writing-mode: horizontal-tb;
+  /* 요소의 배치 방식: grid는 격자, flex는 유연한 정렬, block은 블록 */
+  display: grid;
+  align-content: start; /* 목차를 공통 상단 패딩 시작점에 고정 */
+  /* 같은 너비의 8개 열을 만들고 각 열의 최소 너비는 0으로 설정 */
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  /* 열 또는 항목 사이의 간격 */
+  gap: 1rem;
+}
+
+/* .contents에 적용되는 스타일 */
+.contents {
+  align-self: start; /* 격자 안에서 위쪽 가장자리에 정렬 */
+  /* 차지할 열 범위; 1 / -1은 전체 열 */
+  grid-column: 1 / -1;
+  /* 바깥 여백 (여러 값은 위·좌우·아래 순) */
+  margin: 0 8.660625rem; /* 상단은 공통 패딩 68px에 맞춤 */
+}
+
+/* .contents__list에 적용되는 스타일 */
+.contents__list {
+  /* 요소의 배치 방식: grid는 격자, flex는 유연한 정렬, block은 블록 */
+  display: flex;
+  /* row-reverse는 오른쪽부터, column은 위에서 아래로 배치 */
+  flex-direction: row-reverse;
+  /* 주축 방향의 항목 간격과 정렬 */
+  justify-content: space-between;
+  /* 교차축 방향의 정렬 */
+  align-items: flex-start;
+  /* 테두리 안쪽의 여백 */
+  padding: 0;
+  /* 바깥 여백 (여러 값은 위·좌우·아래 순) */
+  margin: 0;
+}
+
+/* .contents__item에 적용되는 스타일 */
+.contents__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 3.545625rem;
+  border-left: 0.25rem solid currentColor;
+  /* 스크로크-텍스트 간격 (여러 값은 위·좌우·아래 순) */
+  padding-left: 0.25rem;
+  box-sizing: border-box;
+}
+
+
+
+/* 기본 상태에서는 원래 목차 제목만 표시합니다. */
+.contents__hover {
+  display: none;
+}
+
+/* 항목 하나에 마우스를 올리거나 Tab 키로 선택하면 해당 문구만 바뀝니다.
+   숨겨진 텍스트는 공간을 차지하지 않아 검은 세로선도 표시된 문구 길이에 맞춰집니다. */
+.contents__item:is(:hover, :focus-within) .contents__default {
+  display: none;
+}
+
+.contents__item:is(:hover, :focus-within) .contents__hover {
+  display: inline;
+}
+
+/* 키보드로 선택한 항목을 확인할 수 있는 포커스 표시입니다. */
+.contents__link:focus-visible {
+  outline: 0.0625rem solid currentColor;
+  outline-offset: 0.5rem;
+}
+
+/* 숫자와 제목 전체를 클릭할 수 있는 링크입니다. 기존 세로 배치를 유지합니다. */
+.contents__link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* 목차 목록과 링크의 브라우저 기본 장식을 제거합니다. */
+.contents__list {
+  list-style: none;
+}
+
+.contents__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 목차 10개 열은 화면 폭 안에서 함께 줄어듭니다. */
+.contents { margin-inline:clamp(0rem,7.2171875vw,8.660625rem); min-width:0; }
+.contents__list { gap:clamp(.125rem,1vw,1rem); }
+.contents__item { flex:0 1 auto; min-width:0; border-left-width:clamp(.0625rem,.208333vw,.25rem); }
+.page.page--index { width:100%; max-width:none; height:100dvh; min-height:0; aspect-ratio:auto; overflow:hidden; }
+.page--index .page__content { height:100%; min-height:0; }
+@media(max-width:60rem) { .contents { margin-inline:0; } }
+@media(max-width:60rem) { .contents { margin-block-start:2.5rem; } }
+
+/* 작은 화면에서도 열과 긴 호버 문구를 내부에서 끝까지 볼 수 있습니다. */
+.page--index .contents { max-height: 100%; overflow: auto; overscroll-behavior: contain; margin-block-start: 0; padding: .5rem; }
+@media (max-width: 75rem), (max-height: 45rem) {
+ .page--index .contents__list { width: max-content; min-width: 100%; gap: clamp(1rem, 3vw, 2.5rem); }
+ .page--index .contents__item { flex: none; }
+ .page--index .page__content { display: block; }
+ .page--index .contents { height: 100%; margin-inline: 0; }
+}
+@media (max-width: 60rem) {
+ .page--index .contents { padding-top: 3rem; }
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>세로쓰기 — 이미지 검색</title>
+    <link rel="stylesheet" href="../css/font.css?v=onulkangsan-all1" />
+    <link rel="stylesheet" href="../css/common.css?v=responsive20261025" />
+    <link rel="stylesheet" href="../css/search.css?v=responsive20261025" />
+    <script src="../java/search-results.js" defer></script>
+  </head>
+  <body class="naver-site">
+    <main class="page page--search" aria-label="이미지 검색 결과">
+      <div class="page__content search-content">
+        <header class="search-header">
+          <!-- N 로고를 누르면 세로형 네이버 홈으로 돌아갑니다. -->
+          <a class="search-home" href="../08.html" aria-label="네이버 홈으로 돌아가기">
+            <svg class="search-home__logo" viewBox="0 0 186 186" aria-hidden="true" focusable="false">
+              <path d="M0 0H57L126.5 99V0H186V186H129L60 86V186H0Z" />
+            </svg>
+          </a>
+          <h1 class="search-heading">이미지 검색</h1>
+          <form class="search-form" action="search.html" method="get">
+            <label class="search-label" for="search-query">검색어</label>
+            <input class="search-query" id="search-query" name="q" required maxlength="500" placeholder="검색어를 입력해 주세요。" />
+            <button class="search-submit" type="submit">검색</button>
+          </form>
+          <div class="search-controls">
+            <button class="search-toggle" type="button">생성 중지</button>
+            <span class="search-count">0장 생성</span>
+          </div>
+        </header>
+        <section class="search-results" aria-label="생성 이미지">
+          <p class="search-status" role="status">로컬 이미지 서버에 연결하고 있습니다。</p>
+          <div class="search-gallery"></div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
