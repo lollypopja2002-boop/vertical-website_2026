@@ -12,8 +12,7 @@
  }
  // 두 모드에서 같은 자리에 있는 왼쪽 도구막대입니다.
  [['services',82],['notifications',133],['pay',184],['shopping-bag',235]].forEach(([id,y])=>link(group,id,240,y,55,49));
- const footer=[['about',35,120,25,75],['jobs',35,200,25,75],['partnership',35,280,25,70],['terms',35,360,25,70],['privacy',35,440,25,125],['youth',35,580,25,110],['policy',35,705,25,80],['help',35,805,25,70],['developers',93,44,28,130],['partners',131,44,28,108],['notice',186,44,28,80],['developer-center',93,182,28,125],['impact',131,182,28,95],['open-api',93,329,28,80],['business',131,328,28,140],['open-source',93,492,28,70],['ads',131,492,28,110],['d2sf',93,636,28,110],['new-store',131,636,28,80],['labs',93,765,28,80],['local-business',131,765,28,95],['expert',131,900,28,94],['all-services',186,904,30,130]];
- footer.forEach(([id,x,y,w,h])=>link(group,id,x,y,w,h));
+ // 하단 회사·파트너·개발자·공지 영역은 표시만 하고 링크를 생성하지 않습니다。
  // 확장형에서만 보이는 카드와 분류 메뉴입니다.
  link(expandedGroup,'weather',375,60,152,220);
  ['coffee','beauty-purple','breakfast','shirt','dress'].forEach((id,i)=>link(expandedGroup,id,620,77+i*126.3,151,123));

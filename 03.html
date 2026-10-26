@@ -1,17 +1,33 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <!-- 각 항목의 빈 페이지입니다. 공통 폰트와 68px 여백을 적용합니다. -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>세로쓰기 — 03 글줄의 질서</title>
-    <link rel="stylesheet" href="css/font.css?v=body-weight450" />
-    <link rel="stylesheet" href="css/common.css?v=responsive20261025" />
-  </head>
-  <body>
-    <main class="page page--03" aria-label="03 글줄의 질서">
-      <!-- 이 영역에 해당 항목의 세로쓰기 콘텐츠를 추가합니다. -->
-      <div class="page__content"><div class="page__body body-text"></div></div>
-    </main>
-  </body>
-</html>
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>세로쓰기 — 03 글줄의 질서</title>
+<link rel="stylesheet" href="css/font.css?v=type-lab" /><link rel="stylesheet" href="css/common.css" /><link rel="stylesheet" href="css/03.css" />
+<script src="java/typelab.js" defer></script><script src="java/dot-cursor.js" defer></script>
+</head>
+<body>
+<main class="page page--03" aria-label="03 글줄의 질서"><div class="page__content">
+<h1 class="lab__heading detail-heading"><span class="lab__number">03</span><span>글줄의 질서</span></h1>
+<p class="lab__aside">《같은 문장、다른 읽기》</p>
+<div class="lab">
+<nav class="lab__tabs" aria-label="읽기 실험 선택"><button type="button" aria-pressed="true" data-mode="type"><span class="body-digit">01</span>。문장을 놓다</button><button type="button" aria-pressed="false" data-mode="unfold"><span class="body-digit">02</span>。펼쳐 읽다</button></nav>
+<section id="type-panel" class="lab__panel" aria-label="문장 조판 실험">
+<form class="lab__controls" id="type-form">
+<label class="lab__sentence">나의 문장<textarea id="lab-text" maxlength="2000">우리는 문장을 읽는 것일까。 익숙한 방향을 따라가는 것일까。 글자가 놓이는 자리를 바꾸면、 당연했던 풍경이 낯설어진다。 오늘은 조금 다른 방향으로 읽어 본다。</textarea></label>
+<label>글줄 길이 <output id="length-value"><span class="body-digit">16</span>자</output><input id="lab-length" type="range" min="6" max="24" value="16" /></label>
+<label>글줄 사이 <output id="gap-value"><span class="body-digit">1</span>.<span class="body-digit">9</span>배</output><input id="lab-gap" type="range" min="1.2" max="3" step="0.1" value="1.9" /></label>
+<label>글꼴<select id="lab-font"><option value="kangsan">오늘강산</option><option value="serif">명조</option><option value="sans">고딕</option></select></label>
+<button type="button" id="lab-compare" aria-pressed="false">가로쓰기로 비교 ↔</button><button type="reset">처음 조판으로 되돌리기</button>
+</form>
+<div class="lab__paper" tabindex="0" aria-label="조판 결과、스크롤하여 읽기"><p id="lab-preview"></p></div>
+</section>
+<section id="unfold-panel" class="lab__panel" aria-label="펼쳐 읽기 실험" hidden>
+<div class="lab__unfold-head"><h2>읽는 만큼、펼쳐지는 이야기</h2><p>손잡이를 움직여 다음 문장을 펼쳐 보세요。</p></div>
+<div class="lab__scroll-window" id="unfold-window" tabindex="0" aria-label="펼쳐진 이야기"><p id="unfold-copy">문자는 위에서 아래로 흐릅니다。 이야기는 오른쪽에서 왼쪽으로 이어집니다。 우리는 문장을 따라 눈을 움직이고、 다음 이야기를 찾아 손을 움직입니다。 화면에서는 다음 내용을 불러왔습니다。 여기서는 다음 내용을 직접 펼칩니다。 읽는 속도는 당신의 손에 있습니다。 글줄의 끝에서 잠시 쉬었다가 다시 왼쪽으로。 아직 읽지 않은 이야기가 기다립니다。</p></div>
+<label class="lab__unfold-control">더 펼치기<input id="unfold-range" type="range" min="15" max="100" value="74" /><output id="unfold-value"><span class="body-digit">74</span>%</output></label>
+</section>
+</div>
+<img class="page-bolt page-bolt--top-left" src="img/bolt%20graphic.svg" alt="" /><img class="page-bolt page-bolt--top-right" src="img/bolt%20graphic.svg" alt="" /><img class="page-bolt page-bolt--bottom-left" src="img/bolt%20graphic.svg" alt="" /><img class="page-bolt page-bolt--bottom-right" src="img/bolt%20graphic.svg" alt="" />
+</div></main>
+</body></html>

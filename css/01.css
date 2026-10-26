@@ -3,14 +3,14 @@
 .reading__heading { position:absolute; top:0; right:10rem; z-index:2; margin:0; padding-top:3.625rem; border-left:.1875rem solid #000; display:flex; flex-direction:column; align-items:flex-start; }
 .reading__page-number { position:absolute; top:0; left:0; }
 .reading__aside { position:absolute; top:var(--reading-body-top); right:calc(14.0625rem + var(--reading-optical-shift)); height:max-content; margin:0; white-space:nowrap; }
-.reading__viewport { position:absolute; top:var(--reading-body-top); right:calc(18.1875rem + var(--reading-optical-shift)); left:0; bottom:0; overflow-x:auto; overflow-y:hidden; direction:rtl; scrollbar-width:thin; scrollbar-color:#aaa transparent; overscroll-behavior-inline:contain; }
+.reading__viewport { position:absolute; top:var(--reading-body-top); right:calc(18.1875rem + var(--reading-optical-shift)); left:calc((100% - 7 * var(--grid-gutter)) / 8 + var(--grid-gutter)); bottom:0; overflow-x:auto; overflow-y:hidden; direction:rtl; scrollbar-width:thin; scrollbar-color:#aaa transparent; overscroll-behavior-inline:contain; }
 .reading__track { display:flex; flex-direction:row-reverse; align-items:flex-start; gap:3.125rem; width:max-content; min-width:100%; height:100%; direction:ltr; }
 .reading__section { display:flex; flex-direction:row-reverse; align-items:flex-start; gap:.5rem; height:100%; flex:none; }
 .page--01 .reading__section-heading { display:flex; flex-direction:row-reverse; align-items:flex-start; gap:var(--reading-heading-gap); height:100%; margin:0; writing-mode:horizontal-tb; }
 .reading__index { display:block; align-self:flex-start; flex:none; width:max-content; height:max-content; max-height:none; padding:.125rem .0625rem; background:#000; color:#fff; writing-mode:vertical-rl; white-space:nowrap; }
 .reading__question { position:relative; display:block; height:max-content; max-height:100%; border-left:var(--reading-rule-stroke) solid transparent; writing-mode:vertical-rl; }
 .reading__question::before { content:""; position:absolute; top:0; bottom:0; left:-.0625rem; width:var(--reading-rule-stroke); background:#000; }
-.reading__copy { --reading-columns:4; height:100%; width:calc(var(--reading-columns) * (var(--body-font-size) + .5rem)); margin:0; overflow:hidden; white-space:nowrap; }
+.reading__copy { --reading-columns:4; height:100%; width:auto; flex:none; margin:0; white-space:normal; word-break:keep-all; overflow-wrap:normal; }
 .reading__section:nth-child(3) .reading__copy,
 .reading__section:nth-child(4) .reading__copy { --reading-columns:5; }
 .reading__section:nth-child(5) .reading__copy { --reading-columns:7; }

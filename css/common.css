@@ -124,3 +124,55 @@ body { width: 100%; align-items: start; }
 }
 :root dialog { overscroll-behavior: contain; overflow: auto; }
 :root dialog :is(input, textarea, select) { min-width: 0; max-width: 100%; }
+
+/* 검은 점 커서와 움직임을 따라 흐르는 꼬리 */
+@media (hover: hover) and (pointer: fine) {
+  html.has-dot-cursor, html.has-dot-cursor * { cursor: none !important; }
+}
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 50%;
+  background: #000;
+  pointer-events: none;
+  z-index: 2147483647;
+  opacity: 0;
+  will-change: transform;
+}
+
+/* 상세 페이지 제목은 세로선 바로 옆에 정렬합니다。 */
+.page :is(.guide__heading,.reading__heading,.eye__heading,.lab__heading,.guestbook__header h1) {
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:0;
+ padding-left:0;
+ padding-right:0;
+ padding-top:3.625rem;
+ border-left:.1875rem solid #000;
+}
+.page .lab__heading > .lab__number { position:absolute; top:0; left:0; }
+
+/* 00–09 공통 번호와 제목 */
+.page.page .detail-heading {
+ position:absolute;
+ top:0;
+ right:10rem;
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:.75rem;
+ width:max-content;
+ height:max-content;
+ margin:0;
+ padding:0;
+ border-left:.1875rem solid #000;
+ writing-mode:horizontal-tb;
+ z-index:3;
+}
+.page.page .detail-heading > span { position:static; margin:0; padding:0; transform:none; }
+.page--09 .guestbook__header .detail-heading { position:relative; right:auto; }
+@media(max-width:75rem) { .page.page .detail-heading { right:clamp(0rem,8.333333vw,10rem); } }

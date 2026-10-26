@@ -13,12 +13,13 @@
     <!-- 페이지 동작 스크립트 연결; defer가 있으면 HTML 해석 후 실행합니다. -->
     <script src="java/entry.js"></script>
     <!-- 스타일 불러오기: 공통 폰트와 글자 스타일. -->
-    <link rel="stylesheet" href="css/font.css?v=toc-line-20261025" />
+    <link rel="stylesheet" href="css/font.css?v=upright-css-index" />
     <!-- 스타일 불러오기: 공통 페이지 크기와 여백. -->
     <link rel="stylesheet" href="css/common.css?v=responsive20261025" />
     <!-- 스타일 불러오기: 현재 페이지 전용 배치와 시각 효과. -->
     <link rel="stylesheet" href="css/index.css?v=toc-line-20261025" />
-  </head>
+  <script src="java/dot-cursor.js" defer></script>
+</head>
   <!-- 화면에 실제로 표시되는 콘텐츠입니다. -->
   <body>
     <!-- 페이지의 주 콘텐츠; page 클래스는 공통 크기와 여백을 적용합니다. -->
@@ -101,36 +102,21 @@
               >
             </li>
             <!-- 목차 항목: contents__number/toc-number는 숫자, contents__title/toc-title은 세로쓰기 제목입니다. -->
+            
+            <!-- 목차 항목: contents__number/toc-number는 숫자, contents__title/toc-title은 세로쓰기 제목입니다. -->
             <li class="contents__item">
-              <a
-                class="contents__link"
-                href="04.html"
-                aria-label="04 글자의 흔적"
-                ><span class="contents__number toc-number">04</span
-                ><span class="contents__title toc-title toc-gap"
-                  ><span class="contents__default">글자의 흔적</span
-                  ><span class="contents__hover"
-                    >글자는 어떻게 흔적이 되는가<span class="toc-question">?</span></span
-                  ></span
-                ></a
-              >
+              <a class="contents__link" href="04.html" aria-label="04 눈의 움직임">
+                <span class="contents__number toc-number">04</span>
+                <span class="contents__title toc-title toc-gap"><span class="contents__default">눈의 움직임</span><span class="contents__hover">세로쓰기는 어떻게 읽히는가<span class="toc-question">?</span></span></span>
+              </a>
             </li>
             <!-- 목차 항목: contents__number/toc-number는 숫자, contents__title/toc-title은 세로쓰기 제목입니다. -->
             <li class="contents__item">
-              <a
-                class="contents__link"
-                href="05.html"
-                aria-label="05 눈의 움직임"
-                ><span class="contents__number toc-number">05</span
-                ><span class="contents__title toc-title toc-gap"
-                  ><span class="contents__default">눈의 움직임</span
-                  ><span class="contents__hover"
-                    >세로쓰기는 어떻게 읽히는가<span class="toc-question">?</span></span
-                  ></span
-                ></a
-              >
+              <a class="contents__link" href="05.html" aria-label="05 세로 모음">
+                <span class="contents__number toc-number">05</span>
+                <span class="contents__title toc-title toc-gap"><span class="contents__default">세로 모음</span><span class="contents__hover">버티컬 아카이빙</span></span>
+              </a>
             </li>
-            <!-- 목차 항목: contents__number/toc-number는 숫자, contents__title/toc-title은 세로쓰기 제목입니다. -->
             <li class="contents__item">
               <a
                 class="contents__link"
@@ -150,12 +136,12 @@
               <a
                 class="contents__link"
                 href="07.html"
-                aria-label="07 글자의 충돌"
+                aria-label="07 CSS"
                 ><span class="contents__number toc-number">07</span
                 ><span class="contents__title toc-title toc-gap"
-                  ><span class="contents__default">글자의 충돌</span
+                  ><span class="contents__default"><span class="latin-upright" aria-label="CSS"><span aria-hidden="true">C</span><span aria-hidden="true">S</span><span aria-hidden="true">S</span></span></span
                   ><span class="contents__hover"
-                    >다른 문자가 들어온다면<span class="toc-question">?</span></span
+                    >웹은 세로로 어떻게 작동하는가<span class="toc-question">?</span></span
                   ></span
                 ></a
               >
