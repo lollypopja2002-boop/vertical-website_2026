@@ -18,5 +18,5 @@
  if(id==='services'||id==='all-services'){
   Object.entries({mail:'메일',cafe:'카페',blog:'블로그',store:'스토어',news:'뉴스',stocks:'증권',home:'부동산',map:'지도',webtoon:'웹툰',chzzk:'치지직'}).forEach(([file,title])=>{const a=document.createElement('a');a.href=`${file}.html`;a.textContent=title;related.prepend(a);});
  }
- document.querySelector('#detail-back').addEventListener('click',()=>{if(history.length>1)history.back();else location.href='../08.html';});
+ document.querySelector('#detail-back').addEventListener('click',()=>{if(history.length>1)history.back();else location.href='../07.html';});
 })();

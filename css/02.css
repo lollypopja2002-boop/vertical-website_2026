@@ -18,3 +18,27 @@
 .page--02 .reading__copy {
  width:calc(var(--reading-columns) * (var(--reading-copy-size) + .5rem));
 }
+
+/* 짧아진 세로줄에서 어절 단위로 다시 조판하고 가로 스크롤 */
+.page--02 .reading__viewport {
+ bottom:auto;
+ height:calc((100% - var(--reading-body-top)) * 2 / 3);
+ overflow-x:auto;
+ overflow-y:hidden;
+ padding-bottom:.5rem;
+}
+.page--02 .reading__copy { width:auto; overflow:visible; white-space:normal; }
+
+/* 질문과 본문은 8px、검은 인덱스와 질문은 24px */
+.page--02 .reading__section { gap:.5rem; }
+.page--02 .reading__section-heading { gap:1.5rem; }
+
+/* 02 부제를 공통 본문 영역 바깥에 두어 인덱스와 겹침 방지 */
+.page--02 .reading__aside {
+ right:15.3125rem;
+ top:3.75rem;
+ margin:0;
+ z-index:2;
+}
+@media(max-width:75rem) { .page--02 .reading__aside { right:14rem; } }
+@media(max-width:40rem) { .page--02 .reading__aside { right:8rem; } }

@@ -1,224 +1,140 @@
-/* 1920×1080 기준으로 화면 안에 들어오는 16:9 크기를 사용합니다. */
-.page--08 {
-  width: min(100vw, calc(100svh * 16 / 9), 120rem);
-  height: min(calc(100vw * 9 / 16), 100svh, 67.5rem);
-  /* 기준 화면에서 68px, 작은 화면에서는 같은 비율로 여백을 축소합니다. */
-  padding: min(var(--page-padding), calc(100vw * 68 / 1920), calc(100svh * 68 / 1080));
-  background: #fff;
+.page--08 { background: #fff; }
+.page--08 .guestbook { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 1rem; writing-mode: horizontal-tb; }
+.guestbook__header h1 { margin: 0; }
+.guestbook__board { position: relative; overflow: hidden; touch-action: manipulation; }
+.guestbook__board[aria-disabled="false"] { cursor: crosshair; }
+.guestbook__filters { position: absolute; pointer-events: none; overflow: hidden; }
+.guestbook__seal { --seal-size: 5rem; display: block; width: var(--seal-size); height: var(--seal-size); flex: none; pointer-events: none; }
+.guestbook__seal > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.guestbook__seal--placed { position: absolute; transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)); mix-blend-mode: multiply; opacity: .94; }
+/* 첨부 화면: 오른쪽 제목과 안내、왼쪽의 넓은 날인 영역 */
+.page--08 .guestbook { min-height: calc(100svh - var(--page-padding) * 2); }
+.guestbook__header { position: absolute; top: 0; right: clamp(0rem, 7.1vw, 8.5rem); display: block; }
+.guestbook__header h1 { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding-top: 3.625rem; border-left: .1875rem solid #000; }
+.guestbook__number { position: absolute; top: 0; left: 0; }
+.guestbook__intro { position: absolute; top: 3.75rem; right: clamp(7rem, 14.6vw, 17.5rem); height: 46rem; max-height: 85%; display: flex; flex-direction: row-reverse; gap: 1.5rem; }
+.guestbook__intro p { margin: 0; height: 100%; }
+.guestbook__paper { position: absolute; inset: 0 38.5% 0 0; display: block; }
+.guestbook__board { width: 100%; height: 100%; min-height: 35rem; border: 0; background: #fff; }
+.guestbook__seal { --seal-size: clamp(5rem, 7.5vw, 9rem); }
+.guestbook__open { position: absolute; left: 2rem; bottom: 0; z-index: 1; border: 0; padding: .2rem 0; cursor: pointer; background: #000; }
+.guestbook__placement { position: absolute; left: 5rem; bottom: 0; margin: 0; max-height: 20rem; pointer-events: none; }
+#seal-dialog { border: .125rem solid #000; background: #fff; padding: 2rem; width: auto; max-width: calc(100vw - 2rem); max-height: calc(100svh - 2rem); overflow: auto; }
+#seal-dialog::backdrop { background: rgb(0 0 0 / .18); }
+.guestbook__dialog-content { display: flex; flex-direction: row-reverse; gap: 1.5rem; height: min(34rem, 75svh); }
+.guestbook__dialog-content :is(h2, p) { margin: 0; }
+#seal-form { display: flex; flex-direction: row-reverse; align-items: flex-start; gap: 1rem; }
+#seal-name { width: 3rem; height: 16rem; padding: .75rem .5rem; border: 0; border-right: .0625rem solid #000; border-radius: 0; background: transparent; }
+#seal-dialog button { background: #fff; border: .0625rem solid #000; padding: .75rem .5rem; cursor: pointer; }
+#seal-dialog button:disabled { opacity: .35; cursor: default; }
+#seal-dialog .guestbook__preview { width: 7rem; height: 7rem; border: 0; flex: none; }
+#seal-dialog .guestbook__seal { --seal-size: 6rem; }
+:is(.guestbook, #seal-dialog) :is(button, input, [tabindex]):focus-visible { outline: .125rem solid #000; outline-offset: .25rem; }
+@media (max-width: 60rem) {
+ .page--08 .guestbook { height: auto; grid-template-rows: auto auto 35rem; row-gap: 2rem; padding-bottom: 8rem; }
+ .guestbook__header { position: relative; right: auto; grid-column: 8; grid-row: 1; justify-self: end; }
+ .guestbook__intro { position: relative; top: auto; right: auto; grid-column: 1 / -1; grid-row: 2; height: 32rem; max-height: none; justify-content: flex-start; }
+ .guestbook__paper { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 3; }
+ .guestbook__open { left: 0; }
+ .guestbook__placement { left: 3rem; }
+ .guestbook__seal { --seal-size: 6rem; }
 }
 
-/* 이미지의 높이와 너비가 부모의 실제 콘텐츠 영역을 따르게 합니다. */
-.page--08 .page__content {
-  writing-mode: horizontal-tb;
+.guestbook__instructions { position: absolute; top: 3.75rem; right: calc(clamp(7rem, 14.6vw, 17.5rem) + 12rem); height: 49rem; max-height: 86%; display: flex; flex-direction: row-reverse; gap: .5rem; padding: 0 1.2rem; border-inline: .0625rem solid #000; }
+.guestbook__instructions p { margin: 0; }
+.guestbook__seal--logo { object-fit: contain; opacity: 1; }
+.guestbook__seal--placed:not(.guestbook__seal--logo) { pointer-events: auto; }
+#seal-message { width: 7rem; height: 16rem; resize: horizontal; padding: .5rem; border: .0625rem solid #000; background: #fff; }
+@media (max-width: 60rem) {
+ .page--08 .guestbook { grid-template-rows: auto auto auto 35rem; }
+ .guestbook__instructions { position: relative; top: auto; right: auto; grid-column: 1 / -1; grid-row: 3; height: 30rem; max-height: none; justify-self: end; max-width: 100%; overflow-x: auto; }
+ .guestbook__paper { grid-row: 4; }
 }
 
-/* 원본 비율을 유지하고 이미지의 상단을 패딩 시작점에 맞춥니다. */
-.naver__screen {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center top;
-}
+/* 커서 미리보기는 실제 날인과 같은 크기로 표시하며 클릭을 가로채지 않습니다. */
+.guestbook__seal--ghost { position: absolute; transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)); opacity: .2; pointer-events: none; z-index: 2; }
+.guestbook__seal--ghost[hidden] { display: none; }
 
-/* 이미지와 동일한 크기·비율의 링크 레이어 */
-.naver__links {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-/* 지정한 버튼과 아이콘 영역만 클릭할 수 있습니다. */
-.naver__links a {
-  pointer-events: all;
-  cursor: pointer;
-}
-.naver__links a rect {
-  fill: transparent;
-}
-
-/* 키보드 선택 시 해당 버튼을 표시합니다. */
-.naver__links a:focus-visible {
-  outline: none;
-}
-.naver__links a:focus-visible rect {
-  stroke: #008d42;
-  stroke-width: 0.25rem;
-  fill: #00c75a;
-  fill-opacity: 0.08;
-}
-
-/* 검색창도 SVG와 함께 비례하여 확대·축소됩니다. */
-.naver__search-layer { pointer-events: all; overflow: visible; }
-.naver-search {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  border: 0.125rem solid #03c75a; /* 기본 상태: 선명한 초록 테두리 */
-  box-shadow: none; /* 기본 상태에서는 그림자 없음 */
-  border-radius: 3.75rem;
-  transition: border-color 160ms, box-shadow 160ms;
-}
-.naver-search:hover,
-.naver-search:focus-within {
-  border-color: #03c75a;
-  box-shadow: 0 0.3125rem 0.75rem #0002;
-}
-.naver-search__symbol {
-  position: absolute;
-  top: 1.6875rem;
-  left: 1.25rem;
-  width: 4.0625rem;
-  height: 4.0625rem;
-  pointer-events: none;
-}
-/* 돋보기는 기본·호버·입력 상태에서 항상 유지합니다. */
-.naver-search__input {
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: 6.875rem 1.5625rem; /* 위아래를 동일하게 맞춰 안내 문구 중앙 정렬 */
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-radius: inherit;
-  resize: none;
-  overflow: auto;
-}
-.naver-search__keyboard {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 2rem;
-  width: 2.6875rem;
-  height: 1.875rem;
-  pointer-events: none;
+/* 새로 찍은 도장만 종이에 눌렸다가 안착합니다. */
+.guestbook__seal--press { animation: seal-press 360ms cubic-bezier(.2, .7, .25, 1) both; }
+@keyframes seal-press {
+  0% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(1.28); opacity: 0; }
+  38% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(.94); opacity: 1; }
+  64% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(1.035); opacity: .98; }
+  100% { transform: translate(-50%, -50%) rotate(var(--seal-angle)) scale(var(--seal-scale, 1)) scale(1); opacity: .94; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .naver-search { transition: none; }
-}
-/* 두 프레임의 1920×1080 좌표를 동일하게 확대·축소합니다. */
-.page--08 { padding:0; }
-.naver__screen { object-position:center; }
-.naver__links .naver-mask { fill:white; }
-.naver-frame-toggle { position:absolute; left:12.45%; top:3.1%; width:3.1%; height:2.8%; padding:0; border:0; background:white; cursor:pointer; }
-.naver-frame-toggle svg { display:block; width:100%; height:100%; }
-.naver-frame-toggle:focus-visible { outline:0.125rem solid #008d42; outline-offset:0.25rem; border-radius:1.25rem; }
-.page--08 .naver-search { border-radius:2.75rem; border-width:0.09375rem; }
-.page--08 .naver-search__symbol { top:1.25rem; left:1rem; width:3.0625rem; height:3.0625rem; }
-.page--08 .naver-search__input { padding:5.3125rem 1.25rem 4.375rem; }
-.page--08 .naver-search__keyboard { bottom:1.5rem; left:1.5625rem; width:2rem; height:1.4375rem; }
-/* 첨부 버튼의 원래 비율과 도형을 유지합니다. */
-.naver-frame-toggle { left:12.45%; top:3.1%; width:3.073%; height:2.778%; }
-.naver-toggle-thumb { transform:translateX(1.625rem); transition:transform 220ms ease; }
-.naver-frame-toggle[aria-expanded="false"] .naver-toggle-thumb { transform:translateX(0); }
-.naver-toggle-simple { stroke:#03CF5D; transition:stroke 220ms ease,fill 220ms ease; }
-.naver-toggle-simple[fill] { fill:#03CF5D; stroke:none; }
-.naver-toggle-expanded { stroke:white; transition:stroke 220ms ease; }
-.naver-frame-toggle[aria-expanded="false"] .naver-toggle-simple { stroke:white; }
-.naver-frame-toggle[aria-expanded="false"] .naver-toggle-simple[fill] { fill:white; stroke:none; }
-.naver-frame-toggle[aria-expanded="false"] .naver-toggle-expanded { stroke:#03CF5D; }
-@media(prefers-reduced-motion:reduce) { .naver-toggle-thumb,.naver-toggle-simple,.naver-toggle-expanded { transition:none; } }
-
-/* SVG를 HTML에 직접 넣어 파일 경로나 브라우저 캐시에 의존하지 않습니다. */
-.naver-frame-art { display:block; width:100%; height:100%; }
-.naver-frame-art[hidden] { display:none; }
-
-/* 하나의 1920×1080 작업판을 균일하게 축소해 모든 좌표와 비율을 유지합니다. */
-.page--08 { width:min(100vw,calc(100svh * 16 / 9)); height:min(100svh,calc(100vw * 9 / 16)); max-width:none; max-height:none; aspect-ratio:16/9; padding:0; }
-.page--08 .page__content { position:absolute; left:0; top:0; width:120rem; height:67.5rem; transform:scale(var(--naver-scale,1)); transform-origin:top left; }
-.naver-browserbar { position:absolute; right:0; top:0; width:4.375rem; height:67.5rem; background:#f5f5f5; border-left:0.0625rem solid #d3d6d3; display:flex; align-items:center; flex-direction:column; z-index:5; }
-.browserbar-lights { display:flex; flex-direction:column; align-items:center; gap:0.625rem; padding:2.125rem 0 1.75rem; }
-.naver-browserbar button { cursor:pointer; }
-.browserbar-button { display:flex; align-items:center; justify-content:center; width:2.875rem; height:2.75rem; padding:0.625rem; border:0; background:transparent; border-radius:0.5rem; }
-.browserbar-button:hover { background:#e7eae7; }
-.browserbar-button:focus-visible,.browserbar-address input:focus-visible { outline:0.125rem solid #03c75a; outline-offset:0.125rem; }
-.browserbar-button svg,.browserbar-address>svg { width:1.5625rem; height:1.5625rem; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-.naver-browserbar .light { width:0.9375rem; height:0.9375rem; padding:0; border-radius:50%; }
-.light-red { background:#ed766b; }.light-yellow { background:#f3c85b; }.light-green { background:#7bc764; }
-.browserbar-address { position:absolute; top:20.5625rem; width:2.1875rem; height:26.3125rem; border:0.09375rem solid #d5d9d5; border-radius:1.0625rem; display:flex; align-items:center; flex-direction:column; padding:9.0625rem 0.125rem 0.25rem; }
-.browserbar-address>svg { width:0.9375rem; height:1.125rem; flex-shrink:0; margin-bottom:0.75rem; }
-.browserbar-address input { min-height:0; width:1.5625rem; flex:1; border:0; outline:0; padding:0; background:transparent; }
-.browserbar-address .browserbar-button { width:1.875rem; height:2.25rem; padding:0.25rem; flex-shrink:0; }
-.browserbar-bottom { position:absolute; bottom:1.1875rem; display:flex; align-items:center; flex-direction:column; gap:0.25rem; }
-.browserbar-panel { position:absolute; right:4.875rem; top:8.125rem; width:14.0625rem; padding:1.125rem; border:0.0625rem solid #dbe5dd; border-radius:0.875rem; background:white; box-shadow:0 0.5rem 1.875rem #14342118; display:flex; flex-direction:column; gap:0.5rem; }
-.browserbar-panel[hidden] { display:none; }
-.browserbar-panel a,.browserbar-panel button { padding:0.625rem; border:0; border-radius:0.5rem; background:#f5faf6; }
-.browserbar-status { position:absolute; right:5.125rem; bottom:1.875rem; padding:0.75rem 1.125rem; background:#153d28; border-radius:0.625rem; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s; }
-.browserbar-status.is-visible { opacity:1; }
-.page--08 .naver__screen,.page--08 .naver__links { transform:scale(var(--naver-zoom,1)); transform-origin:top left; }
-.browserbar-button { color:inherit; }
-
-/* rem 기준 작업판의 실제 너비를 측정해 어떤 화면에서도 같은 비율로 맞춥니다. */
-.page--08 { width:min(100vw,calc(100svh * 16 / 9)); height:min(100svh,calc(100vw * 9 / 16)); min-height:0; overflow:hidden; }
-.page--08 .page__content { width:120rem; height:67.5rem; min-height:0; }
-/* SVG 내부 좌표에 대한 백분율 이동으로 rem 기준 크기와 무관하게 끝에 밀착합니다. */
-.naver-toggle-thumb { transform-box:view-box; transform:translateX(44.06779661%); }
-.naver-frame-toggle[aria-expanded="false"] .naver-toggle-thumb { transform:translateX(0); }
-
-/* 전체 화면·찾기 막대가 열려도 화면 위아래에 중앙 정렬 여백을 만들지 않습니다. */
-.page--08 { align-self:start; width:100vw; height:max(100dvh,calc(100vw * 9 / 16)); aspect-ratio:auto; background:linear-gradient(to right,#f3f3f3 0 12.0805%,#fff 12.0805% 96.3542%,#f5f5f5 96.3542%); }
-.page--08 .naver-browserbar { height:var(--naver-viewport-height,67.5rem); }
-.page--08::before { content:''; position:absolute; left:15.7618%; top:0; bottom:0; border-left:.0333076rem solid #c7c7c7; pointer-events:none; }
-
-/* 전체 화면에서는 위쪽 고정을 해제하고 작업판 중심을 화면 중심에 맞춥니다. */
-.page--08 { width:100vw; height:100dvh; min-height:0; aspect-ratio:auto; }
-.page--08 .page__content { left:var(--naver-offset-x,0rem); top:var(--naver-offset-y,0rem); }
-.page--08 .naver-browserbar { top:var(--naver-bar-top,0rem); right:var(--naver-bar-right,0rem); }
-/* 폭이 좁아진 검색창 안에서 아이콘과 입력 글자를 중앙에 유지합니다. */
-.page--08 .naver-search__symbol { left:50%; transform:translateX(-50%); width:2.5rem; height:2.5rem; }
-.page--08 .naver-search__keyboard { left:50%; transform:translateX(-50%); width:1.75rem; }
-.page--08 .naver-search__input { padding-inline:.875rem; }
-
-/* 세로쓰기의 padding-inline은 위아래 여백이므로 물리 방향으로 명시합니다. */
-.page--08 .naver-search__input {
-  padding:5rem calc((100% - 1.75rem) / 2) 4rem;
+  .guestbook__seal--press { animation: none; }
 }
 
-/* 로그인 완료 카드는 기존 로그인 영역 위에 같은 좌표로 표시합니다. */
-.naver-account-layer { pointer-events:all; }
-.naver-account { width:100%; height:100%; padding:.625rem .375rem; background:white; border:.0625rem solid #ddd; border-radius:.875rem; display:flex; flex-direction:column; align-items:center; gap:.75rem; box-sizing:border-box; }
-.account-avatar { position:relative; width:3rem; height:3rem; flex-shrink:0; }
-.account-avatar svg { width:100%; height:100%; }
-.account-avatar>a { position:absolute; right:-.25rem; bottom:0; background:white; border:.0625rem solid #ddd; border-radius:50%; padding:.125rem; }
-.account-columns { display:flex; width:100%; flex:1; min-height:0; gap:.375rem; justify-content:space-between; flex-direction:row-reverse; }
-.account-logout { border:.0625rem solid #ddd; border-radius:.5rem; background:white; padding:.5rem .25rem; cursor:pointer; }
-.account-identity { display:flex; gap:.375rem; min-width:0; }
-.account-name { max-height:100%; overflow-wrap:anywhere; overflow:auto; }
-.account-extras { display:flex; flex-direction:column; gap:.5rem; align-items:center; }
-.account-extras a { display:flex; align-items:center; gap:.25rem; }
-.account-extras b { background:#03c75a; border-radius:.25rem; padding:.125rem; }
+/* 선택한 한 장만 날인 창 안에 표시합니다. */
+.guestbook__paper { left: 4.5%; right: 39%; }
+.guestbook__board { overflow: hidden; min-height: 0; touch-action: manipulation; }
+.guestbook__canvas { position: relative; height: 100%; width: 100%; min-height: 0; }
+@media (max-width: 60rem) {
+ .guestbook__paper { left: auto; right: auto; }
+ .guestbook__board { height: 35rem; }
+}
 
-/* 첨부 프로필 카드의 좌·중·우 배치와 가로세로 비율 */
-.naver-account { position:relative; display:block; height:12.1875rem; padding:0; border-radius:.75rem; writing-mode:horizontal-tb; }
-.account-avatar { position:absolute; left:38%; top:5%; width:24%; height:auto; aspect-ratio:1; }
-.account-avatar>a { width:1.25rem; height:1.25rem; display:grid; place-items:center; padding:0; }
-.account-columns { position:static; display:block; }
-.account-logout { position:absolute; right:10%; top:23%; height:50%; width:14%; padding:.5rem .25rem; display:flex; align-items:center; justify-content:space-around; gap:.5rem; }
-.account-identity { position:absolute; top:33%; left:42%; height:60%; width:18%; display:flex; flex-direction:column; gap:.375rem; }
-.account-id-label { display:flex; align-items:center; gap:.25rem; }
-.account-id-label svg { width:.625rem; height:.625rem; flex-shrink:0; }
-.account-name { max-height:100%; padding-right:.375rem; border-right:.0625rem solid #ddd; }
-.account-extras { position:absolute; left:12%; top:17%; height:78%; gap:.375rem; }
-.account-extras a:first-child { padding:.125rem; border:.0625rem solid #e0edf6; border-radius:.375rem; background:#eaf0ff; }
-.account-extras b { width:1.125rem; height:1.125rem; display:grid; place-items:center; }
-.account-extras b+b { background:#08a8f5; }
+/* 문구는 흐려진 인장 위에 독립적으로 표시합니다. */
+.guestbook__seal-message { position: absolute; inset: 0; display: none; overflow: auto; padding: .2rem; transform: scale(calc(1 / var(--seal-scale, 1))); pointer-events: auto; }
+.guestbook__seal--placed:not(.guestbook__seal--logo):is(:hover, :focus) { opacity: 1 !important; z-index: 3; }
+.guestbook__seal--placed:is(:hover, :focus) > svg { opacity: .3; }
+.guestbook__seal--placed:is(:hover, :focus) > .guestbook__seal-message { display: block; }
 
-/* 프로필은 기존 로그인 영역의 경계를 넘지 않습니다. */
-.naver-account-layer { overflow:hidden; }
-.naver-account { width:100%; height:100%; overflow:hidden; border-radius:.75rem; }
-.account-avatar { left:31%; top:5%; width:38%; }
-.account-avatar>a { width:1rem; height:1rem; right:-.125rem; }
-.account-logout { right:6%; top:30%; width:19%; height:43%; padding:.375rem .125rem; }
-.account-identity { left:35%; top:25%; width:34%; height:68%; gap:.25rem; }
-.account-name { max-height:100%; padding-right:.25rem; }
-.account-extras { left:7%; top:26%; height:67%; gap:.625rem; }
-.account-extras b { width:1rem; height:1rem; }
+.guestbook__pagination { position: absolute; left: 2.5rem; top: 3.75rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; max-height: calc(100% - 4rem); overflow-y: auto; scrollbar-width: thin; }
+.guestbook__page-dots { display: flex; flex-direction: column; gap: .4rem; }
+.guestbook__pagination button { display: grid; place-items: center; width: 1.3rem; height: 1.3rem; padding: 0; flex: none; background: #fff; color: #000; border: .0625rem solid #aaa; border-radius: 50%; cursor: pointer; }
+.guestbook__page-dots button[aria-current="page"] { background: #000; border-color: #000; }
+.guestbook__open { left: auto; bottom: auto; top: 3.75rem; right: calc(clamp(7rem, 14.6vw, 17.5rem) + 24.5rem); }
+.guestbook__empty-logo { position: absolute; top: 50%; left: 50%; width: clamp(5rem, 7.5vw, 9rem); transform: translate(-50%, -50%); opacity: .2; pointer-events: none; }
+.guestbook__empty-logo[hidden] { display: none; }
+@media (max-width: 60rem) {
+ .guestbook__pagination { position: relative; left: auto; top: auto; grid-column: 1; grid-row: 4; z-index: 3; max-height: 32rem; overflow: auto; align-self: start; }
+ .guestbook__open { position: relative; top: auto; right: auto; left: auto; grid-column: 1; grid-row: 3; align-self: start; justify-self: start; }
+ .guestbook__empty-logo { width: 6rem; }
+}
 
-.naver-fit-space { position: relative; width: 100%; height: 100%; overflow: hidden; }
-@media (max-width: 60rem), (max-height: 35rem) {
- .page--08 { overflow: auto; overscroll-behavior: contain; touch-action: pan-x pan-y; }
- .page--08::before { display: none; }
+/* 본문과 사용 안내가 같은 시작 높이를 공유합니다. */
+.guestbook__instructions { top: var(--body-top); right: calc(var(--body-right) + 12rem); }
+.guestbook__open { top: var(--body-top); right: calc(var(--body-right) + 24.5rem); }
+@media (max-width: 60rem) {
+ .guestbook__instructions, .guestbook__open { top: auto; right: auto; }
+}
+
+/* 참조 이미지의 다섯 본문 열과 네 안내 열을 명시적으로 고정합니다. */
+.page--08 .guestbook__intro.page__body {
+ display: flex; flex-direction: row-reverse; align-items: flex-start;
+ gap: var(--body-line-height); width: calc(var(--body-line-height) * 6); height: 49rem;
+ top: var(--body-top); right: var(--body-right); max-width: none; max-height: none;
+}
+.guestbook__intro .guestbook__paragraph { display: flex; flex-direction: row-reverse; flex: none; gap: 0; margin: 0; height: auto; }
+.guestbook__column { display: block; flex: 0 0 var(--body-line-height); width: var(--body-line-height); }
+.page--08 .guestbook__instructions { top: var(--body-top); right: calc(var(--body-right) + calc(var(--body-line-height) * 6)); width: 10rem; height: 49rem; max-height: none; padding: 0 .8125rem; gap: 0; align-items: flex-start; }
+.guestbook__instructions p { flex: 0 0 var(--body-line-height); width: var(--body-line-height); }
+.page--08 .guestbook__open { top: var(--body-top); right: calc(var(--body-right) + 24.5rem); }
+@media (max-width: 60rem) {
+ .page--08 .guestbook__intro.page__body { position: relative; top: auto; right: auto; justify-self: end; height: 49rem; overflow: visible; }
+ .page--08 .guestbook__instructions { top: auto; right: auto; height: 49rem; }
+ .page--08 .guestbook__open { top: auto; right: auto; }
+}
+
+.guestbook__reading { display: contents; }
+#seal-dialog .guestbook__dialog-content { width: max-content; max-width: none; height: min(34rem, calc(100svh - 6rem)); }
+#seal-dialog .guestbook__dialog-content > *, #seal-dialog #seal-form > * { flex-shrink: 0; }
+#seal-dialog #seal-form :is(input, textarea) { height: min(16rem, calc(100svh - 9rem)); }
+@media (max-width: 90rem), (max-height: 50rem) {
+ .page--08 .guestbook { height: auto; min-height: calc(100svh - var(--page-padding) * 2); grid-template-rows: auto auto auto auto; padding-bottom: 2rem; row-gap: 2rem; }
+ .page--08 .guestbook__header { position: relative; top: auto; right: auto; grid-column: 7 / 9; grid-row: 1; justify-self: end; }
+ .page--08 .guestbook__open { position: relative; top: auto; right: auto; left: auto; bottom: auto; grid-column: 1 / 3; grid-row: 1; justify-self: start; align-self: start; }
+ .guestbook__reading { display: flex; flex-direction: row; direction: rtl; grid-column: 1 / -1; grid-row: 2; gap: 0; width: 100%; height: min(51rem, 75svh); overflow: auto; overscroll-behavior: contain; padding-bottom: 1rem; }
+ .page--08 .guestbook__reading .guestbook__intro.page__body { position: relative; flex: none; top: auto; right: auto; direction: ltr; width: calc(var(--body-line-height) * 6); height: 49rem; max-height: none; max-width: none; overflow: visible; }
+ .page--08 .guestbook__reading .guestbook__instructions { position: relative; flex: none; top: auto; right: auto; direction: ltr; width: 10rem; height: 49rem; max-height: none; overflow: visible; }
+ .page--08 .guestbook__pagination { position: relative; left: auto; top: auto; grid-column: 1 / -1; grid-row: 3; flex-direction: row; flex-wrap: nowrap; justify-self: stretch; width: 100%; max-height: none; overflow: auto; padding: .4rem; }
+ .guestbook__page-dots { flex-direction: row; flex: none; }
+ .page--08 .guestbook__paper { position: relative; inset: auto; grid-column: 1 / -1; grid-row: 4; height: clamp(22rem, 65svh, 40rem); min-width: 0; }
+ .page--08 .guestbook__board { height: 100%; min-height: 0; }
+}
+@media (max-width: 90rem), (max-height: 50rem) {
+ .page--08 .guestbook { padding-top: 3rem; }
 }

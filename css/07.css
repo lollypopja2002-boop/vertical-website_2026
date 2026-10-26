@@ -1,58 +1,224 @@
-.page--07 { background:#fff; overflow:hidden; }
-.page--07 .page__content { writing-mode:horizontal-tb; }
-.css-guide__subtitle { position:absolute; top:3.75rem; right:16rem; margin:0; }
-.css-guide__viewport { position:absolute; top:3.75rem; right:21rem; left:0; bottom:0; overflow-x:auto; overflow-y:hidden; direction:rtl; scrollbar-width:thin; }
-.css-guide__track { display:flex; flex-direction:row-reverse; gap:3.125rem; width:max-content; min-width:100%; height:100%; direction:ltr; }
-.css-guide__section,.css-guide__intro,.css-guide__toc { display:flex; flex-direction:row-reverse; gap:1rem; height:100%; flex:none; }
-.css-guide__section h2,.css-guide__intro h2,.css-guide__toc h2 { margin:0; align-self:flex-start; background:#000; padding:.125rem .1875rem; }
-.css-guide__section p,.css-guide__intro p { margin:0; }
-.css-guide__copy,.css-guide__intro > p { height:100%; width:max-content; }
-.css-guide__toc { flex-wrap:wrap; align-content:flex-start; flex-direction:column; width:22rem; gap:.625rem; padding-left:1rem; border-left:.125rem solid #000; }
-.css-guide__toc a { display:block; height:46%; padding:.375rem; }
-.css-guide__section { border-left:.125rem solid #000; padding-left:1.25rem; scroll-margin-right:1rem; }
-.css-guide__section:focus { outline:none; }
-.css-guide__section:focus-visible { outline:.125rem solid #000; outline-offset:.375rem; }
-@media(max-width:75rem) {
- .page--07 .page__content { min-height:max(46rem,calc(100svh - var(--page-padding) * 2)); }
- .css-guide__viewport { right:18rem; }
- .css-guide__subtitle { right:14rem; }
-}
-@media(max-width:40rem) {
- .page--07 .page__content { min-height:72rem; }
- .css-guide__subtitle { right:8rem; }
- .css-guide__viewport { top:29rem; right:0; }
+/* 1920×1080 기준으로 화면 안에 들어오는 16:9 크기를 사용합니다. */
+.page--07 {
+  width: min(100vw, calc(100svh * 16 / 9), 120rem);
+  height: min(calc(100vw * 9 / 16), 100svh, 67.5rem);
+  /* 기준 화면에서 68px, 작은 화면에서는 같은 비율로 여백을 축소합니다. */
+  padding: min(var(--page-padding), calc(100vw * 68 / 1920), calc(100svh * 68 / 1080));
+  background: #fff;
 }
 
-/* 목차의 열 너비를 확보하여 소개문과 겹치지 않게 합니다. */
-.css-guide__toc {
- display:grid;
- grid-auto-flow:column;
- grid-template-rows:repeat(2,minmax(0,1fr));
- grid-auto-columns:max-content;
- width:max-content;
- gap:1.5rem 1rem;
- align-content:stretch;
-}
-.css-guide__toc h2 { grid-row:1 / 3; }
-.css-guide__toc a { height:auto; min-width:2rem; margin:0; }
-.css-guide__intro > *,
-.css-guide__section > * { flex:none; }
-.css-guide__intro > p,
-.css-guide__copy { min-width:max-content; }
-
-/* 목차는 오른쪽 위부터、한 열의 위아래를 읽은 뒤 왼쪽으로 진행 */
-.css-guide__toc { direction:rtl; }
-.css-guide__toc > * { direction:ltr; }
-
-/* 목차의 각 항목을 세로 실선으로 구분 */
-.css-guide__toc a {
- border-left:.125rem solid #000;
- padding-left:.1875rem;
- justify-self:start;
- align-self:start;
- height:max-content;
- max-height:100%;
+/* 이미지의 높이와 너비가 부모의 실제 콘텐츠 영역을 따르게 합니다. */
+.page--07 .page__content {
+  writing-mode: horizontal-tb;
 }
 
-/* 목차 글자 모서리와 실선 사이 추가 여백 제거 */
-.css-guide__toc a { padding-left:0; min-width:0; }
+/* 원본 비율을 유지하고 이미지의 상단을 패딩 시작점에 맞춥니다. */
+.naver__screen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
+
+/* 이미지와 동일한 크기·비율의 링크 레이어 */
+.naver__links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 지정한 버튼과 아이콘 영역만 클릭할 수 있습니다. */
+.naver__links a {
+  pointer-events: all;
+  cursor: pointer;
+}
+.naver__links a rect {
+  fill: transparent;
+}
+
+/* 키보드 선택 시 해당 버튼을 표시합니다. */
+.naver__links a:focus-visible {
+  outline: none;
+}
+.naver__links a:focus-visible rect {
+  stroke: #008d42;
+  stroke-width: 0.25rem;
+  fill: #00c75a;
+  fill-opacity: 0.08;
+}
+
+/* 검색창도 SVG와 함께 비례하여 확대·축소됩니다. */
+.naver__search-layer { pointer-events: all; overflow: visible; }
+.naver-search {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 0.125rem solid #03c75a; /* 기본 상태: 선명한 초록 테두리 */
+  box-shadow: none; /* 기본 상태에서는 그림자 없음 */
+  border-radius: 3.75rem;
+  transition: border-color 160ms, box-shadow 160ms;
+}
+.naver-search:hover,
+.naver-search:focus-within {
+  border-color: #03c75a;
+  box-shadow: 0 0.3125rem 0.75rem #0002;
+}
+.naver-search__symbol {
+  position: absolute;
+  top: 1.6875rem;
+  left: 1.25rem;
+  width: 4.0625rem;
+  height: 4.0625rem;
+  pointer-events: none;
+}
+/* 돋보기는 기본·호버·입력 상태에서 항상 유지합니다. */
+.naver-search__input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 6.875rem 1.5625rem; /* 위아래를 동일하게 맞춰 안내 문구 중앙 정렬 */
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-radius: inherit;
+  resize: none;
+  overflow: auto;
+}
+.naver-search__keyboard {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 2rem;
+  width: 2.6875rem;
+  height: 1.875rem;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .naver-search { transition: none; }
+}
+/* 두 프레임의 1920×1080 좌표를 동일하게 확대·축소합니다. */
+.page--07 { padding:0; }
+.naver__screen { object-position:center; }
+.naver__links .naver-mask { fill:white; }
+.naver-frame-toggle { position:absolute; left:12.45%; top:3.1%; width:3.1%; height:2.8%; padding:0; border:0; background:white; cursor:pointer; }
+.naver-frame-toggle svg { display:block; width:100%; height:100%; }
+.naver-frame-toggle:focus-visible { outline:0.125rem solid #008d42; outline-offset:0.25rem; border-radius:1.25rem; }
+.page--07 .naver-search { border-radius:2.75rem; border-width:0.09375rem; }
+.page--07 .naver-search__symbol { top:1.25rem; left:1rem; width:3.0625rem; height:3.0625rem; }
+.page--07 .naver-search__input { padding:5.3125rem 1.25rem 4.375rem; }
+.page--07 .naver-search__keyboard { bottom:1.5rem; left:1.5625rem; width:2rem; height:1.4375rem; }
+/* 첨부 버튼의 원래 비율과 도형을 유지합니다. */
+.naver-frame-toggle { left:12.45%; top:3.1%; width:3.073%; height:2.778%; }
+.naver-toggle-thumb { transform:translateX(1.625rem); transition:transform 220ms ease; }
+.naver-frame-toggle[aria-expanded="false"] .naver-toggle-thumb { transform:translateX(0); }
+.naver-toggle-simple { stroke:#03CF5D; transition:stroke 220ms ease,fill 220ms ease; }
+.naver-toggle-simple[fill] { fill:#03CF5D; stroke:none; }
+.naver-toggle-expanded { stroke:white; transition:stroke 220ms ease; }
+.naver-frame-toggle[aria-expanded="false"] .naver-toggle-simple { stroke:white; }
+.naver-frame-toggle[aria-expanded="false"] .naver-toggle-simple[fill] { fill:white; stroke:none; }
+.naver-frame-toggle[aria-expanded="false"] .naver-toggle-expanded { stroke:#03CF5D; }
+@media(prefers-reduced-motion:reduce) { .naver-toggle-thumb,.naver-toggle-simple,.naver-toggle-expanded { transition:none; } }
+
+/* SVG를 HTML에 직접 넣어 파일 경로나 브라우저 캐시에 의존하지 않습니다. */
+.naver-frame-art { display:block; width:100%; height:100%; }
+.naver-frame-art[hidden] { display:none; }
+
+/* 하나의 1920×1080 작업판을 균일하게 축소해 모든 좌표와 비율을 유지합니다. */
+.page--07 { width:min(100vw,calc(100svh * 16 / 9)); height:min(100svh,calc(100vw * 9 / 16)); max-width:none; max-height:none; aspect-ratio:16/9; padding:0; }
+.page--07 .page__content { position:absolute; left:0; top:0; width:120rem; height:67.5rem; transform:scale(var(--naver-scale,1)); transform-origin:top left; }
+.naver-browserbar { position:absolute; right:0; top:0; width:4.375rem; height:67.5rem; background:#f5f5f5; border-left:0.0625rem solid #d3d6d3; display:flex; align-items:center; flex-direction:column; z-index:5; }
+.browserbar-lights { display:flex; flex-direction:column; align-items:center; gap:0.625rem; padding:2.125rem 0 1.75rem; }
+.naver-browserbar button { cursor:pointer; }
+.browserbar-button { display:flex; align-items:center; justify-content:center; width:2.875rem; height:2.75rem; padding:0.625rem; border:0; background:transparent; border-radius:0.5rem; }
+.browserbar-button:hover { background:#e7eae7; }
+.browserbar-button:focus-visible,.browserbar-address input:focus-visible { outline:0.125rem solid #03c75a; outline-offset:0.125rem; }
+.browserbar-button svg,.browserbar-address>svg { width:1.5625rem; height:1.5625rem; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.naver-browserbar .light { width:0.9375rem; height:0.9375rem; padding:0; border-radius:50%; }
+.light-red { background:#ed766b; }.light-yellow { background:#f3c85b; }.light-green { background:#7bc764; }
+.browserbar-address { position:absolute; top:20.5625rem; width:2.1875rem; height:26.3125rem; border:0.09375rem solid #d5d9d5; border-radius:1.0625rem; display:flex; align-items:center; flex-direction:column; padding:9.0625rem 0.125rem 0.25rem; }
+.browserbar-address>svg { width:0.9375rem; height:1.125rem; flex-shrink:0; margin-bottom:0.75rem; }
+.browserbar-address input { min-height:0; width:1.5625rem; flex:1; border:0; outline:0; padding:0; background:transparent; }
+.browserbar-address .browserbar-button { width:1.875rem; height:2.25rem; padding:0.25rem; flex-shrink:0; }
+.browserbar-bottom { position:absolute; bottom:1.1875rem; display:flex; align-items:center; flex-direction:column; gap:0.25rem; }
+.browserbar-panel { position:absolute; right:4.875rem; top:8.125rem; width:14.0625rem; padding:1.125rem; border:0.0625rem solid #dbe5dd; border-radius:0.875rem; background:white; box-shadow:0 0.5rem 1.875rem #14342118; display:flex; flex-direction:column; gap:0.5rem; }
+.browserbar-panel[hidden] { display:none; }
+.browserbar-panel a,.browserbar-panel button { padding:0.625rem; border:0; border-radius:0.5rem; background:#f5faf6; }
+.browserbar-status { position:absolute; right:5.125rem; bottom:1.875rem; padding:0.75rem 1.125rem; background:#153d28; border-radius:0.625rem; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s; }
+.browserbar-status.is-visible { opacity:1; }
+.page--07 .naver__screen,.page--07 .naver__links { transform:scale(var(--naver-zoom,1)); transform-origin:top left; }
+.browserbar-button { color:inherit; }
+
+/* rem 기준 작업판의 실제 너비를 측정해 어떤 화면에서도 같은 비율로 맞춥니다. */
+.page--07 { width:min(100vw,calc(100svh * 16 / 9)); height:min(100svh,calc(100vw * 9 / 16)); min-height:0; overflow:hidden; }
+.page--07 .page__content { width:120rem; height:67.5rem; min-height:0; }
+/* SVG 내부 좌표에 대한 백분율 이동으로 rem 기준 크기와 무관하게 끝에 밀착합니다. */
+.naver-toggle-thumb { transform-box:view-box; transform:translateX(44.06779661%); }
+.naver-frame-toggle[aria-expanded="false"] .naver-toggle-thumb { transform:translateX(0); }
+
+/* 전체 화면·찾기 막대가 열려도 화면 위아래에 중앙 정렬 여백을 만들지 않습니다. */
+.page--07 { align-self:start; width:100vw; height:max(100dvh,calc(100vw * 9 / 16)); aspect-ratio:auto; background:linear-gradient(to right,#f3f3f3 0 12.0805%,#fff 12.0805% 96.3542%,#f5f5f5 96.3542%); }
+.page--07 .naver-browserbar { height:var(--naver-viewport-height,67.5rem); }
+.page--07::before { content:''; position:absolute; left:15.7618%; top:0; bottom:0; border-left:.0333076rem solid #c7c7c7; pointer-events:none; }
+
+/* 전체 화면에서는 위쪽 고정을 해제하고 작업판 중심을 화면 중심에 맞춥니다. */
+.page--07 { width:100vw; height:100dvh; min-height:0; aspect-ratio:auto; }
+.page--07 .page__content { left:var(--naver-offset-x,0rem); top:var(--naver-offset-y,0rem); }
+.page--07 .naver-browserbar { top:var(--naver-bar-top,0rem); right:var(--naver-bar-right,0rem); }
+/* 폭이 좁아진 검색창 안에서 아이콘과 입력 글자를 중앙에 유지합니다. */
+.page--07 .naver-search__symbol { left:50%; transform:translateX(-50%); width:2.5rem; height:2.5rem; }
+.page--07 .naver-search__keyboard { left:50%; transform:translateX(-50%); width:1.75rem; }
+.page--07 .naver-search__input { padding-inline:.875rem; }
+
+/* 세로쓰기의 padding-inline은 위아래 여백이므로 물리 방향으로 명시합니다. */
+.page--07 .naver-search__input {
+  padding:5rem calc((100% - 1.75rem) / 2) 4rem;
+}
+
+/* 로그인 완료 카드는 기존 로그인 영역 위에 같은 좌표로 표시합니다. */
+.naver-account-layer { pointer-events:all; }
+.naver-account { width:100%; height:100%; padding:.625rem .375rem; background:white; border:.0625rem solid #ddd; border-radius:.875rem; display:flex; flex-direction:column; align-items:center; gap:.75rem; box-sizing:border-box; }
+.account-avatar { position:relative; width:3rem; height:3rem; flex-shrink:0; }
+.account-avatar svg { width:100%; height:100%; }
+.account-avatar>a { position:absolute; right:-.25rem; bottom:0; background:white; border:.0625rem solid #ddd; border-radius:50%; padding:.125rem; }
+.account-columns { display:flex; width:100%; flex:1; min-height:0; gap:.375rem; justify-content:space-between; flex-direction:row-reverse; }
+.account-logout { border:.0625rem solid #ddd; border-radius:.5rem; background:white; padding:.5rem .25rem; cursor:pointer; }
+.account-identity { display:flex; gap:.375rem; min-width:0; }
+.account-name { max-height:100%; overflow-wrap:anywhere; overflow:auto; }
+.account-extras { display:flex; flex-direction:column; gap:.5rem; align-items:center; }
+.account-extras a { display:flex; align-items:center; gap:.25rem; }
+.account-extras b { background:#03c75a; border-radius:.25rem; padding:.125rem; }
+
+/* 첨부 프로필 카드의 좌·중·우 배치와 가로세로 비율 */
+.naver-account { position:relative; display:block; height:12.1875rem; padding:0; border-radius:.75rem; writing-mode:horizontal-tb; }
+.account-avatar { position:absolute; left:38%; top:5%; width:24%; height:auto; aspect-ratio:1; }
+.account-avatar>a { width:1.25rem; height:1.25rem; display:grid; place-items:center; padding:0; }
+.account-columns { position:static; display:block; }
+.account-logout { position:absolute; right:10%; top:23%; height:50%; width:14%; padding:.5rem .25rem; display:flex; align-items:center; justify-content:space-around; gap:.5rem; }
+.account-identity { position:absolute; top:33%; left:42%; height:60%; width:18%; display:flex; flex-direction:column; gap:.375rem; }
+.account-id-label { display:flex; align-items:center; gap:.25rem; }
+.account-id-label svg { width:.625rem; height:.625rem; flex-shrink:0; }
+.account-name { max-height:100%; padding-right:.375rem; border-right:.0625rem solid #ddd; }
+.account-extras { position:absolute; left:12%; top:17%; height:78%; gap:.375rem; }
+.account-extras a:first-child { padding:.125rem; border:.0625rem solid #e0edf6; border-radius:.375rem; background:#eaf0ff; }
+.account-extras b { width:1.125rem; height:1.125rem; display:grid; place-items:center; }
+.account-extras b+b { background:#08a8f5; }
+
+/* 프로필은 기존 로그인 영역의 경계를 넘지 않습니다. */
+.naver-account-layer { overflow:hidden; }
+.naver-account { width:100%; height:100%; overflow:hidden; border-radius:.75rem; }
+.account-avatar { left:31%; top:5%; width:38%; }
+.account-avatar>a { width:1rem; height:1rem; right:-.125rem; }
+.account-logout { right:6%; top:30%; width:19%; height:43%; padding:.375rem .125rem; }
+.account-identity { left:35%; top:25%; width:34%; height:68%; gap:.25rem; }
+.account-name { max-height:100%; padding-right:.25rem; }
+.account-extras { left:7%; top:26%; height:67%; gap:.625rem; }
+.account-extras b { width:1rem; height:1rem; }
+
+.naver-fit-space { position: relative; width: 100%; height: 100%; overflow: hidden; }
+@media (max-width: 60rem), (max-height: 35rem) {
+ .page--07 { overflow: auto; overscroll-behavior: contain; touch-action: pan-x pan-y; }
+ .page--07::before { display: none; }
+}

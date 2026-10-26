@@ -10,14 +10,18 @@
   --body-line-height: calc(var(--body-font-size) + var(--body-line-gap));
   --stamp-button-word-spacing: -1rem; /* '도장 찍기' 버튼의 어간 */
 
-  /* 00 일러두기 본문: 01–02 본문과 같은 글자 설정을 사용 */
-  --guide-body-font-size: 1.875rem; /* 일러두기 본문 30px */
-  --guide-body-line-height: calc((var(--guide-body-font-size) + 0.5rem) * 2 - 0.8125rem); /* 기존 2배 행간에서 총 13px 축소 */
-  --guide-body-letter-spacing: calc(var(--body-letter-spacing) * 0.5); /* 기존 추가 자간의 절반 */
-  --guide-body-word-spacing: calc((var(--body-word-spacing) - var(--guide-body-font-size)) * 0.5); /* 세로 공백의 실제 길이를 절반으로 보정 */
+  /* 00 일러두기 전용: 아래 값을 각각 바꾸면 바로 반영됩니다。
+     1rem = 기본 화면에서 16px。 다른 페이지의 본문과 독립적입니다。 */
+  --guide-body-font-size: 1.875rem; /* 글자 크기: 30px */
+  --guide-body-line-height: 2.875rem; /* 행간: 세로줄 중심 간 거리 46px、작을수록 줄끼리 가까워짐 */
+  --guide-body-paragraph-gap: 2.25rem; /* 문단 덩어리 사이 추가 간격 36px */
+  --guide-body-letter-spacing: 0rem; /* 자간: 위아래 글자 사이 추가 간격、음수도 가능 */
+  --guide-body-word-spacing: -1.1875rem; /* 어간: 기본 공백 보정 -19px、값을 키우면 띄어쓰기 넓어짐 */
   --reading-heading-gap: 0.8125rem; /* 01: 검은 인덱스와 질문 사이 13px */
   --reading-rule-text-gap: 0rem; /* 01: 세로선과 질문 글자 사이 간격、여기서 조절 */
-  --body-rule-text-gap: var(--reading-rule-text-gap); /* 00을 제외한 상세 페이지에서 같은 값을 사용 */
+  --body-rule-text-gap: var(
+    --reading-rule-text-gap
+  ); /* 00을 제외한 상세 페이지에서 같은 값을 사용 */
 }
 
 /* 레귤러 폰트 등록 */
@@ -171,7 +175,7 @@ textarea {
 }
 
 /* 목차 물음표만 정방향으로 표시 */
-.toc-question {
+.toc-question {일ㄹ
   text-orientation: upright;
   font-feature-settings: normal; /* 회전된 세로 대체 글리프 해제 */
 }
@@ -410,10 +414,10 @@ textarea {
 }
 
 /* 확장형·간편형 검색창의 공통 글자 크기 */
-.page--08 .naver-search__input {
+.page--07 .naver-search__input {
   font-size: 1.375rem;
 }
-.page--08 .naver-search__input::placeholder {
+.page--07 .naver-search__input::placeholder {
   font-size: 1.5rem;
 }
 
@@ -547,14 +551,14 @@ textarea {
 }
 
 /* 검색창 안내 문구의 세로 조판과 시각적 간격 보정 */
-.page--08 .naver-search__input {
+.page--07 .naver-search__input {
   font-size: 1.25rem;
   line-height: 1.75rem;
   letter-spacing: 0;
   word-spacing: 0;
   font-weight: 400;
 }
-.page--08 .naver-search__input::placeholder {
+.page--07 .naver-search__input::placeholder {
   font-size: 1.25rem;
   line-height: inherit;
   letter-spacing: 0;
@@ -801,7 +805,13 @@ textarea {
 
 /* 방명록의 입력과 안내도 공통 세로쓰기 규칙을 따릅니다. */
 /* 01–02: 페이지 제목、소제목、본문의 세로 조판 */
-:is(.page--01, .page--02) :is(.reading__heading, .reading__aside, .reading__section-heading, .reading__copy) {
+:is(.page--01, .page--02)
+  :is(
+    .reading__heading,
+    .reading__aside,
+    .reading__section-heading,
+    .reading__copy
+  ) {
   font-family: "OnulKangsan", serif;
   font-weight: 400;
   font-synthesis: none;
@@ -809,18 +819,44 @@ textarea {
   text-orientation: upright;
   color: #000;
 }
-:is(.page--01, .page--02) .reading__heading { font-size:clamp(1.25rem,1.875vw,2.25rem); line-height:1; }
-:is(.page--01, .page--02) .reading__page-number { text-orientation:upright; }
+:is(.page--01, .page--02) .reading__heading {
+  font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+  line-height: 1;
+}
+:is(.page--01, .page--02) .reading__page-number {
+  text-orientation: upright;
+}
 :is(.page--01, .page--02) .reading__index-number {
   text-orientation: upright;
   text-combine-upright: none;
-  font-feature-settings: "vert" 0, "vrt2" 0;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
 }
-:is(.page--01, .page--02) .reading__aside { font-size:1.25rem; line-height:1.5; letter-spacing:0; word-spacing:-.75rem; }
-:is(.page--01, .page--02) :is(.reading__section-heading, .reading__copy) { font-size:var(--body-font-size); line-height:calc(var(--body-font-size) + .5rem); letter-spacing:var(--body-letter-spacing); word-spacing:var(--body-word-spacing); }
-:is(.page--01, .page--02) .reading__copy { font-weight:var(--body-font-weight); -webkit-text-stroke:var(--body-weight-optical-stroke) currentColor; }
-:is(.page--01, .page--02) .reading__section-heading { font-weight:400; }
-:is(.page--01, .page--02) .reading__index { font-size:var(--body-font-size); line-height:1; text-orientation:upright; }
+:is(.page--01, .page--02) .reading__aside {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  word-spacing: -0.75rem;
+}
+:is(.page--01, .page--02) :is(.reading__section-heading, .reading__copy) {
+  font-size: var(--body-font-size);
+  line-height: calc(var(--body-font-size) + 0.5rem);
+  letter-spacing: var(--body-letter-spacing);
+  word-spacing: var(--body-word-spacing);
+}
+:is(.page--01, .page--02) .reading__copy {
+  font-weight: var(--body-font-weight);
+  -webkit-text-stroke: var(--body-weight-optical-stroke) currentColor;
+}
+:is(.page--01, .page--02) .reading__section-heading {
+  font-weight: 400;
+}
+:is(.page--01, .page--02) .reading__index {
+  font-size: var(--body-font-size);
+  line-height: 1;
+  text-orientation: upright;
+}
 
 /* 방명록의 입력과 안내도 공통 세로쓰기 규칙을 따릅니다. */
 .guestbook :is(h1, label, input, button, a),
@@ -979,8 +1015,8 @@ textarea {
 }
 
 /* 방명록의 열을 담는 컨테이너는 가로축을 유지합니다. */
-.page--09 .guestbook__intro,
-.page--09 .guestbook__intro .guestbook__paragraph {
+.page--08 .guestbook__intro,
+.page--08 .guestbook__intro .guestbook__paragraph {
   writing-mode: horizontal-tb;
 }
 
@@ -992,7 +1028,7 @@ html body :where(*::before, *::after) {
 }
 
 /* 08 pay 아이콘: 영문 단어를 세로쓰기 흐름에 맞춰 원 중심에 배치합니다. */
-.page--08 svg text.naver-pay-label {
+.page--07 svg text.naver-pay-label {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   font-size: 22px; /* SVG viewBox 좌표 기준 */
@@ -1005,282 +1041,603 @@ html body :where(*::before, *::after) {
 
 /* 05 도판의 제목과 검은 인덱스 */
 .page--04 :is(.eye__heading, .eye__aside, .eye__section h2) {
-  font-family:"OnulKangsan",serif;
-  font-weight:400;
-  font-synthesis:none;
-  writing-mode:vertical-rl;
-  text-orientation:upright;
-  color:#000;
-  white-space:nowrap;
+  font-family: "OnulKangsan", serif;
+  font-weight: 400;
+  font-synthesis: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  color: #000;
+  white-space: nowrap;
 }
-.eye__heading { font-size:clamp(1.25rem,1.875vw,2.25rem); line-height:1; }
-.eye__aside { font-size:1.25rem; line-height:1.5; word-spacing:-.75rem; }
-.page--04 .eye__section h2 { font-size:var(--body-font-size); line-height:1; color:#fff; word-spacing:var(--body-word-spacing); }
+.eye__heading {
+  font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+  line-height: 1;
+}
+.eye__aside {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  word-spacing: -0.75rem;
+}
+.page--04 .eye__section h2 {
+  font-size: var(--body-font-size);
+  line-height: 1;
+  color: #fff;
+  word-spacing: var(--body-word-spacing);
+}
 
 /* 05 호버 설명: 공통 본문 크기와 세로 조판 */
 .page--04 .eye__description {
-  font-family:"OnulKangsan",serif;
-  font-size:var(--body-font-size);
-  font-weight:var(--body-font-weight);
-  -webkit-text-stroke:var(--body-weight-optical-stroke) currentColor;
-  font-synthesis:none;
-  line-height:var(--body-line-height);
-  letter-spacing:var(--body-letter-spacing);
-  word-spacing:var(--body-word-spacing);
-  writing-mode:vertical-rl;
-  text-orientation:upright;
-  white-space:normal;
-  word-break:keep-all;
-  color:#000;
+  font-family: "OnulKangsan", serif;
+  font-size: var(--body-font-size);
+  font-weight: var(--body-font-weight);
+  -webkit-text-stroke: var(--body-weight-optical-stroke) currentColor;
+  font-synthesis: none;
+  line-height: var(--body-line-height);
+  letter-spacing: var(--body-letter-spacing);
+  word-spacing: var(--body-word-spacing);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  white-space: normal;
+  word-break: keep-all;
+  color: #000;
 }
 
-.page--04 .eye__description { text-align:start; text-indent:0; padding-top:.125rem; }
+.page--04 .eye__description {
+  text-align: start;
+  text-indent: 0;
+  padding-top: 0.125rem;
+}
 
 /* 05 인덱스 호버: 검은 배경을 유지하고 글자만 60%로 표시 */
 .page--04 .eye__section h2:is(:hover, :focus-visible) {
-  color:rgb(255 255 255 / .6);
+  color: rgb(255 255 255 / 0.6);
 }
 
 /* 05 큰 도판 옆의 제목과 본문 */
 .page--04 .eye__section h2,
 .page--04 .eye__section h2:is(:hover, :focus-visible) {
-  color:#000;
-  font-size:var(--body-font-size);
-  line-height:1;
-  word-spacing:var(--body-word-spacing);
+  color: #000;
+  font-size: var(--body-font-size);
+  line-height: 1;
+  word-spacing: var(--body-word-spacing);
 }
 .page--04 .eye__description {
-  padding:0;
-  font-size:var(--body-font-size);
-  line-height:var(--body-line-height);
-  text-align:start;
-  text-indent:0;
+  padding: 0;
+  font-size: var(--body-font-size);
+  line-height: var(--body-line-height);
+  text-align: start;
+  text-indent: 0;
 }
 
 /* 05 검은 인덱스의 글자와 호버 상태 */
-.page--04 .eye__section h2 { color:#fff; }
-.page--04 .eye__section h2:is(:hover, :focus-visible) { color:rgb(255 255 255 / .6); }
+.page--04 .eye__section h2 {
+  color: #fff;
+}
+.page--04 .eye__section h2:is(:hover, :focus-visible) {
+  color: rgb(255 255 255 / 0.6);
+}
 
 /* 05 인덱스는 조작 요소가 아닌 고정 제목입니다. */
-.page--04 .eye__section h2:is(:hover, :focus-visible) { color:#fff; }
+.page--04 .eye__section h2:is(:hover, :focus-visible) {
+  color: #fff;
+}
 
 /* 03 글줄의 질서: 세로 조판 실험의 텍스트 */
-.page--03 :is(.lab__heading,.lab__aside,.lab button,.lab label,.lab textarea,.lab select,.lab output,.lab__unfold-head,#lab-preview,#unfold-copy) {
- font-family:"OnulKangsan",serif; font-weight:400; font-synthesis:none;
- writing-mode:vertical-rl; text-orientation:upright;
- font-size:var(--body-font-size); line-height:1.65; letter-spacing:var(--body-letter-spacing);
+.page--03
+  :is(
+    .lab__aside,
+    .lab button,
+    .lab label,
+    .lab textarea,
+    .lab select,
+    .lab output,
+    .lab__unfold-head,
+    #lab-preview,
+    #unfold-copy
+  ) {
+  font-family: "OnulKangsan", serif;
+  font-weight: 400;
+  font-synthesis: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: var(--body-font-size);
+  line-height: 1.65;
+  letter-spacing: var(--body-letter-spacing);
 }
-.page--03 .lab__heading { font-size:clamp(1.25rem,1.875vw,2.25rem); line-height:1; }
-.page--03 :is(#lab-preview,#unfold-copy) { word-break:keep-all; overflow-wrap:normal; white-space:normal; }
-.page--03 #lab-preview { line-height:1.9; }
-.page--03 .lab__unfold-control { writing-mode:horizontal-tb; }
-.page--03 .lab__unfold-head h2 { font-size:1.5rem; }
+.page--03 .lab__heading {
+  font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+  line-height: 1;
+}
+.page--03 :is(#lab-preview, #unfold-copy) {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  white-space: normal;
+}
+.page--03 #lab-preview {
+  line-height: 1.9;
+}
+.page--03 .lab__unfold-control {
+  writing-mode: horizontal-tb;
+}
+.page--03 .lab__unfold-head h2 {
+  font-size: 1.5rem;
+}
 
 /* 상세 페이지의 동일 위계 제목: 번호、서체、어간、선과 글자 간격 통일 */
-:root { --detail-title-size:clamp(1.25rem,1.875vw,2.25rem); --detail-title-word-spacing:-.5em; }
-.page :is(.guide__heading,.reading__heading,.eye__heading,.lab__heading,.guestbook__header h1),
-.page :is(.guide__heading,.reading__heading,.eye__heading,.lab__heading,.guestbook__header h1) > span {
- font-family:"OnulKangsan",serif;
- font-size:var(--detail-title-size);
- font-weight:400;
- font-synthesis:none;
- writing-mode:vertical-rl;
- text-orientation:upright;
- line-height:1;
- letter-spacing:0;
- word-spacing:var(--detail-title-word-spacing);
+:root {
+  --detail-title-size: clamp(1.25rem, 1.875vw, 2.25rem);
+  --detail-title-word-spacing: -0.5em;
 }
-.page :is(.guide__heading,.reading__heading,.eye__heading,.lab__heading,.guestbook__header h1) > span:first-child {
- text-orientation:sideways;
- font-feature-settings:"vert" 0,"vrt2" 0;
- white-space:nowrap;
+.page
+  :is(
+    .guide__heading,
+    .reading__heading,
+    .eye__heading,
+    .lab__heading,
+    .guestbook__header h1
+  ),
+.page
+  :is(
+    .guide__heading,
+    .reading__heading,
+    .eye__heading,
+    .lab__heading,
+    .guestbook__header h1
+  )
+  > span {
+  font-family: "OnulKangsan", serif;
+  font-size: var(--detail-title-size);
+  font-weight: 400;
+  font-synthesis: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-height: 1;
+  letter-spacing: 0;
+  word-spacing: var(--detail-title-word-spacing);
+}
+.page
+  :is(
+    .guide__heading,
+    .reading__heading,
+    .eye__heading,
+    .lab__heading,
+    .guestbook__header h1
+  )
+  > span:first-child {
+  text-orientation: sideways;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  white-space: nowrap;
 }
 
 /* 목차 숫자와 제목을 같은 선에 붙여 정렬 */
-.page--index :is(.toc-number,.toc-title) { transform:none; }
+.page--index :is(.toc-number, .toc-title) {
+  transform: none;
+}
 
 /* 첨부한 00 제목 형식에 맞춘 상세 페이지 제목 */
 .page .detail-heading,
 .page .detail-heading > span {
- font-family:"OnulKangsan",serif;
- font-size:clamp(1.25rem,1.875vw,2.25rem);
- font-weight:400;
- line-height:1;
- letter-spacing:0;
- word-spacing:-.5em;
- font-synthesis:none;
- color:#000;
+  font-family: "OnulKangsan", serif;
+  font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  word-spacing: -0.5em;
+  font-synthesis: none;
+  color: #000;
 }
-.page .detail-heading > span { writing-mode:vertical-rl; text-orientation:upright; }
+.page .detail-heading > span {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
 .page .detail-heading > span:first-child {
- writing-mode:vertical-rl;
- text-orientation:sideways;
- font-feature-settings:"vert" 0,"vrt2" 0;
- white-space:nowrap;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  white-space: nowrap;
 }
 
 /* pay는 고딕체 정방향 글자를 원 중앙에 위에서 아래로 배치 */
-.page--08 svg text.naver-pay-label,
-.page--08 svg text.naver-pay-label tspan {
- font-family:Arial,Helvetica,sans-serif !important;
- font-size:16px;
- font-weight:700;
- writing-mode:horizontal-tb;
- text-orientation:upright;
- font-feature-settings:normal;
- dominant-baseline:central;
- text-anchor:middle;
- letter-spacing:0;
- word-spacing:0;
+.page--07 svg text.naver-pay-label,
+.page--07 svg text.naver-pay-label tspan {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 16px;
+  font-weight: 700;
+  writing-mode: horizontal-tb;
+  text-orientation: upright;
+  font-feature-settings: normal;
+  dominant-baseline: central;
+  text-anchor: middle;
+  letter-spacing: 0;
+  word-spacing: 0;
 }
 
 /* 일러두기 문단 기호는 첫 글자와 같은 세로줄에 배치 */
 .page--00 .guide-circle {
- display:inline;
- font-family:inherit;
- font-size:1em;
- text-orientation:upright;
+  display: inline;
+  font-family: inherit;
+  font-size: 1em;
+  text-orientation: upright;
 }
 
 /* 목차 영문 호버 문구도 한글처럼 각 글자를 정방향으로 세웁니다. */
 .page--index .contents__hover {
- text-orientation:upright;
- font-feature-settings:"vert" 0,"vrt2" 0;
+  text-orientation: upright;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
 }
 
 /* 목차 기본 제목과 호버 문구는 동일한 부모 조판 설정을 사용합니다. */
-.page--index :is(.contents__default,.contents__hover) {
- font-family:inherit;
- font-size:inherit;
- font-weight:inherit;
- line-height:inherit;
- letter-spacing:inherit;
- word-spacing:inherit;
- writing-mode:inherit;
- text-orientation:inherit;
- font-feature-settings:inherit;
- white-space:inherit;
+.page--index :is(.contents__default, .contents__hover) {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  writing-mode: inherit;
+  text-orientation: inherit;
+  font-feature-settings: inherit;
+  white-space: inherit;
 }
 
 /* 04 눈의 움직임: 네 항목의 설명 본문 공통 크기 17px */
-.page--04 .eye__description { font-size:1.0625rem; }
+.page--04 .eye__description {
+  font-size: 1.0625rem;
+}
 
 /* 01–02 읽기 위계: 검은 인덱스 > 질문 > 설명 본문 */
 :root {
- --reading-index-size:1.375rem; /* 22px */
- --reading-question-size:1.1875rem; /* 19px */
- --reading-copy-size:1.0625rem; /* 17px */
+  --reading-index-size: 1.375rem; /* 22px */
+  --reading-question-size: 1.1875rem; /* 19px */
+  --reading-copy-size: 1.0625rem; /* 17px */
 }
-:is(.page--01,.page--02) .reading__index,
-:is(.page--01,.page--02) .reading__index-number {
- font-size:var(--reading-index-size);
- line-height:1.1;
+:is(.page--01, .page--02) .reading__index,
+:is(.page--01, .page--02) .reading__index-number {
+  font-size: var(--reading-index-size);
+  line-height: 1.1;
 }
-:is(.page--01,.page--02) .reading__question.body-rule-text {
- font-size:var(--reading-question-size);
- line-height:1;
+:is(.page--01, .page--02) .reading__question.body-rule-text {
+  font-size: var(--reading-question-size);
+  line-height: 1;
 }
-:is(.page--01,.page--02) .reading__copy {
- font-size:var(--reading-copy-size);
- line-height:calc(var(--reading-copy-size) + .5rem);
- font-weight:400;
- -webkit-text-stroke:0;
- word-break:keep-all;
+:is(.page--01, .page--02) .reading__copy {
+  font-size: var(--reading-copy-size);
+  line-height: calc(var(--reading-copy-size) + 0.5rem);
+  font-weight: 400;
+  -webkit-text-stroke: 0;
+  word-break: keep-all;
 }
 
 /* 05 아카이브: 작은 탐색과 세로 설명의 편집 위계 */
-.page--05 :is(.archive__nav p,.archive__nav button,.archive__info h2,.archive__info p,.archive__info a) {
- font-family:"OnulKangsan",serif;
- font-weight:400;
- font-synthesis:none;
- writing-mode:vertical-rl;
- text-orientation:upright;
- font-size:1.0625rem;
- line-height:1.65;
- letter-spacing:0;
- word-spacing:-.25em;
- color:#000;
+.page--05
+  :is(
+    .archive__nav p,
+    .archive__nav button,
+    .archive__info h2,
+    .archive__info p,
+    .archive__info a
+  ) {
+  font-family: "OnulKangsan", serif;
+  font-weight: 400;
+  font-synthesis: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  letter-spacing: 0;
+  word-spacing: -0.25em;
+  color: #000;
 }
-.page--05 .archive__nav button { font-size:.9375rem; white-space:nowrap; }
-.page--05 .archive__info h2 { font-size:1.375rem; }
-.page--05 .archive__meta { font-size:.875rem; color:#666; }
-.page--05 #archive-description { word-break:keep-all; }
-.page--05 .archive__info a { font-size:.875rem; text-underline-offset:.2em; }
-.page--05 .archive__figure figcaption { font-size:.75rem; color:#666; }
-.page--05 .archive__meta { white-space:pre-line; }
+.page--05 .archive__nav button {
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+.page--05 .archive__info h2 {
+  font-size: 1.375rem;
+}
+.page--05 .archive__meta {
+  font-size: 0.875rem;
+  color: #666;
+}
+.page--05 #archive-description {
+  word-break: keep-all;
+}
+.page--05 .archive__info a {
+  font-size: 0.875rem;
+  text-underline-offset: 0.2em;
+}
+.page--05 .archive__figure figcaption {
+  font-size: 0.75rem;
+  color: #666;
+}
+.page--05 .archive__meta {
+  white-space: pre-line;
+}
 
 /* 영문은 Times New Roman으로、CSS는 한글처럼 정방향 세로쓰기 */
 .page .latin-upright,
 .page .detail-heading > .latin-upright {
- font-family:"Times New Roman",Times,serif;
- text-orientation:upright;
- font-feature-settings:"vert" 0,"vrt2" 0;
- text-combine-upright:none;
+  font-family: "Times New Roman", Times, serif;
+  text-orientation: upright;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  text-combine-upright: none;
 }
 
 /* CSS의 각 영문 글자는 가로 글리프를 세로로 쌓아 회전을 방지 */
 .page .latin-upright,
 .page .detail-heading > .latin-upright {
- display:inline-flex;
- flex-direction:column;
- align-items:center;
- writing-mode:horizontal-tb;
- text-orientation:upright;
- vertical-align:top;
- line-height:1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  writing-mode: horizontal-tb;
+  text-orientation: upright;
+  vertical-align: top;
+  line-height: 1;
 }
 .page .latin-upright > span {
- display:block;
- font-family:"Times New Roman",Times,serif;
- writing-mode:horizontal-tb;
- text-orientation:upright;
- line-height:1;
+  display: block;
+  font-family: "Times New Roman", Times, serif;
+  writing-mode: horizontal-tb;
+  text-orientation: upright;
+  line-height: 1;
 }
 
 /* 07 CSS 구현: 제목 22px、영문 부제 15px、설명 17px */
-.page--07 :is(.css-guide__subtitle,.css-guide__section h2,.css-guide__intro h2,.css-guide__toc h2,.css-guide__toc a,.css-guide__copy,.css-guide__intro > p,.css-guide__english) {
- font-family:"OnulKangsan",serif; font-weight:400; font-synthesis:none;
- writing-mode:vertical-rl; text-orientation:upright;
- font-size:1.0625rem; line-height:1.6; letter-spacing:0; word-spacing:-.25em;
- color:#000; word-break:keep-all;
+.page--06
+  :is(
+    .css-guide__subtitle,
+    .css-guide__section h2,
+    .css-guide__intro h2,
+    .css-guide__toc h2,
+    .css-guide__toc a,
+    .css-guide__copy,
+    .css-guide__intro > p,
+    .css-guide__english
+  ) {
+  font-family: "OnulKangsan", serif;
+  font-weight: 400;
+  font-synthesis: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  letter-spacing: 0;
+  word-spacing: -0.25em;
+  color: #000;
+  word-break: keep-all;
 }
-.page--07 :is(.css-guide__section h2,.css-guide__intro h2,.css-guide__toc h2) { font-size:1.375rem; line-height:1.1; color:#fff; }
-.page--07 :is(.css-guide__english,.css-guide__subtitle) { font-family:"Times New Roman",Times,serif; font-size:.9375rem; word-spacing:0; }
-.page--07 .css-guide__toc a { font-size:1rem; text-decoration:none; }
-.page--07 .css-guide__toc a:hover { opacity:.4; }
+.page--06
+  :is(.css-guide__section h2, .css-guide__intro h2, .css-guide__toc h2) {
+  font-size: 1.375rem;
+  line-height: 1.1;
+  color: #fff;
+}
+.page--06 :is(.css-guide__english, .css-guide__subtitle) {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 0.9375rem;
+  word-spacing: 0;
+}
+.page--06 .css-guide__toc a {
+  font-size: 1rem;
+  text-decoration: none;
+}
+.page--06 .css-guide__toc a:hover {
+  opacity: 0.4;
+}
 
 /* 목차 기본·호버 모두 동일한 Times New Roman 정방향 영문 */
 .page--index .latin-upright,
 .page--index .latin-upright > span {
- font-family:"Times New Roman",serif;
- writing-mode:horizontal-tb;
- direction:ltr;
- transform:none;
- font-feature-settings:"vert" 0,"vrt2" 0;
+  font-family: "Times New Roman", serif;
+  writing-mode: horizontal-tb;
+  direction: ltr;
+  transform: none;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
 }
 
 /* Times 대문자의 낮은 글자 높이를 한글 목차와 시각적으로 맞춤 */
 .page--index .latin-upright {
- font-size:calc(1.15em - .1875rem);
- width:.869565em;
- line-height:.869565;
- align-items:center;
+  font-size: calc(1.15em - 0.1875rem);
+  width: 0.869565em;
+  line-height: 0.869565;
+  align-items: center;
 }
 .page--index .latin-upright > span {
- font-size:inherit;
- line-height:.869565;
- text-align:center;
- width:100%;
+  font-size: inherit;
+  line-height: 0.869565;
+  text-align: center;
+  width: 100%;
 }
 
 /* 본문 숫자는 세로 대체 글리프나 가로 묶음 없이 한 글자씩 정방향 표시 */
 .page .body-digit {
- writing-mode:vertical-rl;
- text-orientation:upright;
- text-combine-upright:none;
- font-feature-settings:"vert" 0,"vrt2" 0;
- font-variant-numeric:normal;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-combine-upright: none;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  font-variant-numeric: normal;
 }
 
 /* 07 본문 목차: 넓은 행 상자를 줄여 선과 글자를 밀착 */
-.page--07 .css-guide__toc a { line-height:1; }
+.page--06 .css-guide__toc a {
+  line-height: 1;
+}
+
+/* 본문의 영문: Times New Roman 정방향、한글과 같은 세로 흐름 */
+@font-face {
+  font-family: "BodyLatinTimes";
+  src: url("../font/Times New Roman.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-007F;
+}
+.page .body-latin {
+  font-family: "BodyLatinTimes", "Times New Roman", serif;
+  font-size: inherit;
+  font-weight: 400;
+  writing-mode: inherit;
+  text-orientation: upright !important;
+  text-combine-upright: none;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+  font-synthesis: none;
+}
+
+/* 정방향 영문의 전각 세로 글자 간격을 줄여 단어의 밀도를 보정 */
+.page .body-latin {
+  letter-spacing: -0.2em;
+  word-spacing: -0.25em;
+  white-space: nowrap;
+}
+/* 영문 부제는 단어 사이의 공백도 함께 줄입니다. */
+.page--06 :is(.css-guide__english, .css-guide__subtitle) {
+  word-spacing: -0.45em;
+}
+/* 한글 어절과 영문 속성 이름을 보존하며 짧은 마지막 줄을 완화 */
+:is(.page--01, .page--02) .reading__copy,
+.page--04 .eye__description,
+.page--06 :is(.css-guide__copy, .css-guide__intro > p) {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  text-wrap: pretty;
+}
+.page .body-token {
+  white-space: nowrap;
+}
+
+/* 글리프 충돌을 피하면서 영문 단어의 밀도를 보정 */
+.page .body-latin {
+  font-size: 0.94em;
+  letter-spacing: -0.08em;
+  word-spacing: 0;
+  -webkit-text-stroke: 0;
+  line-height: inherit;
+}
+/* 짧은 문장 끝을 앞 어절과 함께 다음 줄로 넘깁니다. */
+.page .body-phrase {
+  white-space: nowrap;
+}
+
+/* 07 영문 부제는 다른 페이지의 《질문》과 같은 위계 */
+.page--06 .css-guide__subtitle {
+  font-family: "OnulKangsan", serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  word-spacing: -0.45em;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-feature-settings:
+    "vert" 1,
+    "vrt2" 1;
+  white-space: nowrap;
+}
+.page--06 .css-guide__subtitle .body-latin {
+  font-family: "BodyLatinTimes", "Times New Roman", serif;
+  font-size: 1em;
+}
+
+/* 어절과 문장 끝 묶음을 보존하며 세로줄을 넘깁니다. */
+:is(.page--01, .page--02) .reading__copy,
+.page--06 :is(.css-guide__copy, .css-guide__intro > p) {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  white-space: normal;
+  text-wrap: pretty;
+}
+
+/* 기능명·질문 소제목 공통: 본문에 가까운 위계와 밀착 밑줄 */
+.page--06 .css-guide__english {
+  line-height: 1;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.0625rem;
+  text-underline-offset: 0.04em;
+  text-underline-position: under left;
+}
+
+/* 04 《질문》 부제는 01 페이지와 같은 위계로 통일 */
+.page--04 .eye__aside {
+  font-family: "OnulKangsan", serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  word-spacing: -0.75rem;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  color: #000;
+  white-space: nowrap;
+}
+
+/* 03 조작과 본문도 다른 상세 페이지의 17px 본문 기준에 맞춤 */
+.page--03
+  :is(
+    .lab button,
+    .lab label,
+    .lab textarea,
+    .lab select,
+    .lab output,
+    #lab-preview,
+    #unfold-copy
+  ) {
+  font-size: var(--reading-copy-size, 1.0625rem);
+  font-weight: 400;
+  letter-spacing: var(--body-letter-spacing);
+  word-spacing: var(--body-word-spacing);
+  line-height: var(--body-line-height);
+}
+.page--03 :is(.lab textarea, #lab-preview, #unfold-copy) {
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+.page--03 .body-digit {
+  text-orientation: upright;
+  font-feature-settings:
+    "vert" 0,
+    "vrt2" 0;
+}
+.page--03
+  :is(
+    .lab button,
+    .lab label,
+    .lab textarea,
+    .lab select,
+    .lab output,
+    #lab-preview,
+    #unfold-copy
+  ) {
+  line-height: calc(var(--reading-copy-size, 1.0625rem) + 0.5rem);
+}
+
+/* 두루마리 실험: 다른 본문과 같은 17px 세로 조판、문단 사이 여백 유지 */
+.page--03 #unfold-copy > p {
+ font-family:"OnulKangsan",serif;
+ font-size:var(--reading-copy-size,1.0625rem);
+ font-weight:400;
+ line-height:calc(var(--reading-copy-size,1.0625rem) + .5rem);
+ writing-mode:vertical-rl;
+ text-orientation:upright;
+ letter-spacing:var(--body-letter-spacing);
+ word-spacing:var(--body-word-spacing);
+ white-space:normal;
+ word-break:keep-all;
+ text-indent:1em;
+ text-wrap:pretty;
+}
+
+/* 일러두기 문단 간격은 위의 전용 변수로 조절 */
+.page--00 .guide__body { gap:var(--guide-body-paragraph-gap); }

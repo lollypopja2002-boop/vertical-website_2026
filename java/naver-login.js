@@ -26,7 +26,7 @@
   if(!password.value){password.reportValidity();return;}
   sessionStorage.setItem('naver-demo-user',id.value.trim());
   password.value='';
-  location.href='../08.html';
+  location.href='../07.html';
  });
  id.addEventListener('input',()=>{id.setCustomValidity('');feedback.textContent='';});
  password.addEventListener('input',()=>{feedback.textContent='';});

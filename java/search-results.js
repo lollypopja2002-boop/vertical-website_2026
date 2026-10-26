@@ -133,7 +133,7 @@ if (!resultQuery) {
   statusText.textContent = "검색어를 입력해 주세요。";
   toggle.disabled = true;
 } else if (!isLocal) {
-  statusText.textContent = "이 기능은 모델이 설치된 Mac에서 사용합니다。http://127.0.0.1:8008/08.html로 접속해 주세요。";
+  statusText.textContent = "이 기능은 모델이 설치된 Mac에서 사용합니다。http://127.0.0.1:8008/07.html로 접속해 주세요。";
   toggle.disabled = true;
 } else if (needsGenerationServer) {
   statusText.textContent = "로컬 생성 서버로 이동하고 있습니다。";

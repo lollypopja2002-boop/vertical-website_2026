@@ -16,3 +16,17 @@
 .reading__section:nth-child(5) .reading__copy { --reading-columns:7; }
 @media (max-width:75rem) { .reading__heading { right:clamp(4rem,9vw,10rem); } .reading__viewport { right:calc(clamp(10rem,25vw,18.1875rem) + var(--reading-optical-shift)); } }
 @media (max-width:40rem) { .page--01 { --reading-body-top:13rem; --reading-optical-shift:0rem; } .reading__heading { right:3.5rem; } .reading__aside { right:min(14.0625rem,45vw); } .reading__viewport { right:0; height:calc(100% - var(--reading-body-top)); } }
+
+/* 한 세로줄의 읽기 길이를 기존의 2/3로 줄이고 가로로 이어 읽기 */
+.page--01 .reading__viewport {
+ bottom:auto;
+ height:calc((100% - var(--reading-body-top)) * 2 / 3);
+ overflow-x:auto;
+ overflow-y:hidden;
+ padding-bottom:.5rem;
+}
+.page--01 .reading__copy { width:auto; overflow:visible; white-space:normal; }
+
+/* 질문과 본문은 8px、검은 인덱스와 질문은 24px */
+.page--01 .reading__section { gap:.5rem; }
+.page--01 .reading__section-heading { gap:1.5rem; }

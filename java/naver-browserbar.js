@@ -1,6 +1,6 @@
 /* 고정 작업판을 실제 화면 크기에 맞춰 비율 그대로 표시합니다. */
 (() => {
- const page=document.querySelector('.page--08');
+ const page=document.querySelector('.page--07');
  const stage=page.querySelector('.page__content');
  const fitSpace=page.querySelector('.naver-fit-space');
  let narrowMode=false;
@@ -46,7 +46,7 @@
    case 'back':if(history.length>1)history.back();else location.href='index.html';break;
    case 'reload':location.reload();break;
    case 'share':try{await navigator.clipboard.writeText(location.href);inform('현재 페이지 링크를 복사했습니다。');}catch{inform('주소창에서 현재 주소를 복사해 주세요。');}break;
-   case 'new':window.open('08.html?screen=tools2','_blank','noopener');break;
+   case 'new':window.open('07.html?screen=tools2','_blank','noopener');break;
    case 'zoom-in':zoom=Math.min(1.5,zoom+.1);fit();inform(`${Math.round(zoom*100)}% 확대`);break;
    case 'zoom-out':zoom=Math.max(.6,zoom-.1);fit();inform(`${Math.round(zoom*100)}% 축소`);break;
    case 'zoom-reset':zoom=1;fit();inform('1920 × 1080 비율로 맞췄습니다。');break;
@@ -54,7 +54,7 @@
  });
  document.querySelector('#browserbar-address').addEventListener('submit',event=>{
   event.preventDefault();const value=document.querySelector('#browserbar-url').value.trim();if(!value)return;
-  if(/^(https?:\/\/)?(www\.)?naver\.com\/?$/i.test(value)){location.href='08.html?screen=tools2';return;}
+  if(/^(https?:\/\/)?(www\.)?naver\.com\/?$/i.test(value)){location.href='07.html?screen=tools2';return;}
   // 외부 주소는 http(s)만 허용하고, 일반 단어는 기존 검색 화면에 전달합니다.
   if(/^https?:\/\//i.test(value)){location.href=new URL(value).href;return;}
   const local=['127.0.0.1','localhost'].includes(location.hostname);

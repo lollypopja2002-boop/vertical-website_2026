@@ -1,0 +1,84 @@
+.page--06 { background:#fff; overflow:hidden; }
+.page--06 .page__content { writing-mode:horizontal-tb; }
+.css-guide__subtitle { position:absolute; top:3.75rem; right:16rem; margin:0; }
+.css-guide__viewport { position:absolute; top:3.75rem; right:21rem; left:0; bottom:0; overflow-x:auto; overflow-y:hidden; direction:rtl; scrollbar-width:thin; }
+.css-guide__track { display:flex; flex-direction:row-reverse; gap:3.125rem; width:max-content; min-width:100%; height:100%; direction:ltr; }
+.css-guide__section,.css-guide__intro,.css-guide__toc { display:flex; flex-direction:row-reverse; gap:1rem; height:100%; flex:none; }
+.css-guide__section h2,.css-guide__intro h2,.css-guide__toc h2 { margin:0; align-self:flex-start; background:#000; padding:.125rem .1875rem; }
+.css-guide__section p,.css-guide__intro p { margin:0; }
+.css-guide__copy,.css-guide__intro > p { height:100%; width:max-content; }
+.css-guide__toc { flex-wrap:wrap; align-content:flex-start; flex-direction:column; width:22rem; gap:.625rem; padding-left:1rem; border-left:.125rem solid #000; }
+.css-guide__toc a { display:block; height:46%; padding:.375rem; }
+.css-guide__section { border-left:.125rem solid #000; padding-left:1.25rem; scroll-margin-right:1rem; }
+.css-guide__section:focus { outline:none; }
+.css-guide__section:focus-visible { outline:.125rem solid #000; outline-offset:.375rem; }
+@media(max-width:75rem) {
+ .page--06 .page__content { min-height:max(46rem,calc(100svh - var(--page-padding) * 2)); }
+ .css-guide__viewport { right:18rem; }
+ .css-guide__subtitle { right:14rem; }
+}
+@media(max-width:40rem) {
+ .page--06 .page__content { min-height:72rem; }
+ .css-guide__subtitle { right:8rem; }
+ .css-guide__viewport { top:29rem; right:0; }
+}
+
+/* 목차의 열 너비를 확보하여 소개문과 겹치지 않게 합니다. */
+.css-guide__toc {
+ display:grid;
+ grid-auto-flow:column;
+ grid-template-rows:repeat(2,minmax(0,1fr));
+ grid-auto-columns:max-content;
+ width:max-content;
+ gap:1.5rem 1rem;
+ align-content:stretch;
+}
+.css-guide__toc h2 { grid-row:1 / 3; }
+.css-guide__toc a { height:auto; min-width:2rem; margin:0; }
+.css-guide__intro > *,
+.css-guide__section > * { flex:none; }
+.css-guide__intro > p,
+.css-guide__copy { min-width:max-content; }
+
+/* 목차는 오른쪽 위부터、한 열의 위아래를 읽은 뒤 왼쪽으로 진행 */
+.css-guide__toc { direction:rtl; }
+.css-guide__toc > * { direction:ltr; }
+
+/* 목차의 각 항목을 세로 실선으로 구분 */
+.css-guide__toc a {
+ border-left:.125rem solid #000;
+ padding-left:.1875rem;
+ justify-self:start;
+ align-self:start;
+ height:max-content;
+ max-height:100%;
+}
+
+/* 목차 글자 모서리와 실선 사이 추가 여백 제거 */
+.css-guide__toc a { padding-left:0; min-width:0; }
+
+/* 긴 설명의 세로줄 길이를 1/3 줄여 가로 방향으로 확장 */
+.page--06 .css-guide__viewport {
+ bottom:auto;
+ height:calc((100% - 3.75rem) * 2 / 3);
+ overflow-x:auto;
+ overflow-y:hidden;
+ padding-bottom:.5rem;
+}
+@media(max-width:40rem) {
+ .page--06 .css-guide__viewport { height:calc((100% - 29rem) * 2 / 3); }
+}
+
+/* 기능명은 검은 인덱스보다 설명 본문에 더 가까이 배치 */
+.css-guide__section { gap:.5rem; }
+.css-guide__section > h2 { margin-left:1rem; }
+
+/* 항목 끝 구분선은 기능명 밑줄과 달리 본문에서 충분히 떨어뜨립니다. */
+.page--06 .css-guide__section {
+ padding-left:2rem;
+ border-left:.125rem solid #000;
+}
+.page--06 .css-guide__copy {
+ padding-left:.25rem;
+ box-sizing:content-box;
+}

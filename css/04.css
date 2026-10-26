@@ -92,3 +92,23 @@
 .eye__section--4 img { height:84.517110%; }
 
 .eye__section h2 { pointer-events:none; }
+
+/* 마지막 항목의 왼쪽 끝 구분선 제거 */
+.eye__section:last-child { border-left:0; }
+
+/* 인덱스와 도판 시작점 사이 간격을 모든 항목에서 통일 */
+.page--04 { --eye-index-content-gap:1.25rem; }
+.page--04 .eye__section { gap:var(--eye-index-content-gap); }
+.page--04 .eye__section img { margin:0; padding:0; }
+
+/* 페이지 부제는 항목 박스 바깥、페이지 제목 옆에 독립 배치 */
+.page--04 .eye__aside {
+ right:15.3125rem;
+ top:3.75rem;
+ background:transparent;
+ border:0;
+ padding:0;
+ z-index:2;
+}
+@media(max-width:75rem) { .page--04 .eye__aside { right:14rem; } }
+@media(max-width:40rem) { .page--04 .eye__aside { right:8rem; } }
