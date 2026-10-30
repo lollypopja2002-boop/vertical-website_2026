@@ -23,6 +23,36 @@
   });
   let activeName = '';
   let stamps = [];
+  let cloud = null;
+  let syncing = false;
+  let resync = false;
+  let cloudQueue = Promise.resolve();
+  function enqueueCloud(task) {
+    const result = cloudQueue.then(task);
+    cloudQueue = result.catch(() => {});
+    return result;
+  }
+  const validStamp = item => item && validName(item.name) && Number.isFinite(item.x) && item.x >= 0 && item.x < 100000 && Number.isFinite(item.y) && item.y >= 0 && item.y <= 1 && Number.isFinite(item.angle) && Math.abs(item.angle) <= 10;
+  function cache(){
+    try { localStorage.setItem(key, JSON.stringify(stamps)); localStorage.setItem(`${key}-pages`, String(pages)); } catch {}
+  }
+  async function synchronize(){
+    if(!cloud)return;
+    if(syncing){resync=true;return;}
+    syncing=true;
+    return enqueueCloud(async () => {
+    try {
+      await cloud.upload(stamps);
+      const remote=(await cloud.read()).filter(validStamp);
+      const byId=new Map(stamps.filter(stamp=>!stamp.cloudSaved).map(stamp=>[stamp.id,stamp]));
+      remote.forEach(stamp=>byId.set(stamp.id,stamp));
+      stamps=[...byId.values()];
+      cache();render();
+      storageNote.textContent='다른 기기의 방문 기록과 함께 저장되어요。';
+    } catch { storageNote.textContent='공용 저장소 연결을 확인해 주세요。도장은 이 브라우저에 보관 중이며 연결되면 다시 전송해요。'; }
+    finally { syncing=false;if(resync){resync=false;synchronize();} }
+    });
+  }
   let ghost = null;
   let nextAngle = Math.random() * 12 - 6;
   let nextScale = .8 + Math.random() * .4;
@@ -156,7 +186,7 @@
       canvas.append(element);
     });
     empty.hidden = Boolean(activeName) || stamps.some(stamp => Math.floor(stamp.x) === currentPage);
-    undo.disabled = stamps.length === 0;
+    undo.disabled = !stamps.some(stamp=>!cloud || !stamp.ownerId || stamp.ownerId===cloud.ownerId);
     board.setAttribute('aria-label', `방명록 ${currentPage + 1}장에 도장 찍기`);
   }
   function renderPagination() {
@@ -180,6 +210,7 @@
   function save() {
     try { localStorage.setItem(key, JSON.stringify(stamps)); localStorage.setItem(`${key}-pages`, String(pages)); }
     catch { storageNote.textContent = '브라우저 저장을 사용할 수 없어、이 창을 닫으면 새 도장이 사라질 수 있어요。'; }
+    synchronize();
   }
   try {
     const savedPages = Number(localStorage.getItem(`${key}-pages`));
@@ -187,6 +218,8 @@
     const saved = JSON.parse(localStorage.getItem(key) || '[]');
     if (Array.isArray(saved)) stamps = saved.filter(item => item && validName(item.name) && Number.isFinite(item.x) && item.x >= 0 && item.x < 100000 && Number.isFinite(item.y) && item.y >= 0 && item.y <= 1 && Number.isFinite(item.angle) && Math.abs(item.angle) <= 10);
   } catch { storageNote.textContent = '저장된 도장을 불러올 수 없어요。새 인장을 만들어 찍을 수 있어요。'; }
+  stamps.forEach(stamp => { stamp.id ||= crypto.randomUUID(); stamp.scale ||= 1; });
+  cache();
   form.addEventListener('submit', event => {
     event.preventDefault();
     const name = normalize(input.value);
@@ -218,7 +251,7 @@
   function place(x, y) {
     if (!activeName) { dialog.showModal(); input.focus(); return; }
     const point = clampPoint(x, y, nextAngle, nextScale);
-    stamps.push({ name: activeName, message: message.value.trim().slice(0, 200), x: point.x, y: point.y, angle: nextAngle, scale: nextScale });
+    stamps.push({ id:crypto.randomUUID(), ownerId:cloud?.ownerId, name: activeName, message: message.value.trim().slice(0, 200), x: point.x, y: point.y, angle: nextAngle, scale: nextScale });
     nextAngle = Math.random() * 12 - 6;
     nextScale = .8 + Math.random() * .4;
     if (ghost) ghost.style.setProperty('--seal-scale', nextScale);
@@ -235,11 +268,25 @@
   board.addEventListener('keydown', event => {
     if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); place(currentPage + .5, .5); }
   });
-  undo.addEventListener('click', () => {
-    if (!stamps.length) return;
-    stamps.pop(); render(); save();
-    status.textContent = '마지막 도장을 취소했어요。';
+  undo.addEventListener('click', async () => {
+    const index=stamps.findLastIndex(stamp=>!cloud || !stamp.ownerId || stamp.ownerId===cloud.ownerId);
+    if(index<0)return;
+    const stamp=stamps[index];
+    undo.disabled=true;
+    await enqueueCloud(async () => {
+    try {
+      if(cloud)await cloud.remove(stamp.id);
+      stamps=stamps.filter(item=>item.id!==stamp.id);render();save();
+      status.textContent='마지막 도장을 취소했어요。';
+    }catch{status.textContent='도장을 취소하지 못했어요。연결을 확인하고 다시 시도해 주세요。';render();}
+    });
   });
+  window.addEventListener('online',synchronize);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)synchronize();});
+  window.createGuestbookCloud().then(connection=>{
+    cloud=connection;
+    if(cloud){synchronize();setInterval(()=>{if(!document.hidden)synchronize();},15000);}
+  }).catch(()=>{storageNote.textContent='공용 저장소 연결에 실패했어요。현재는 이 브라우저에만 저장되어요。';});
   new ResizeObserver(() => { hideGhost(); render(); }).observe(board);
   render();
 })();
